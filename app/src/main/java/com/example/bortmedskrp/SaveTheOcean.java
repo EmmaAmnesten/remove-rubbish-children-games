@@ -140,9 +140,9 @@ public class SaveTheOcean extends AppCompatActivity {
     private void addNewItem(){
         Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth, itemWidthHeight);
         itemsInGame.add(item);
-        for (Item i : itemsInGame){
-            Log.d(TAG, "addNewItem: " + i.getName());
-        }
+//        for (Item i : itemsInGame){
+//            Log.d(TAG, "addNewItem: " + i.getName());
+//        }
         item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +197,10 @@ public class SaveTheOcean extends AppCompatActivity {
         musicController.startFinishApplause();
         TextView musicCredit = findViewById(R.id.textviewCredit);
         musicCredit.setVisibility(View.VISIBLE);
-        addStar();
+        for(int i = 0; i < 50; i++){
+            addStar();
+        }
+
 
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
@@ -214,11 +217,22 @@ public class SaveTheOcean extends AppCompatActivity {
         constraintLayout.removeView(star);
         starList.remove(star);
         star.removeHandlerStar();
+
+        if(starList.size() < 1){
+            Log.d(TAG, "removeStarFromGame: " + starList.size());
+            goToMainActivity();
+
+        }
     }
 
     private int randomInt(int minRandom, int maxRandom){
         int ranInt = new Random().nextInt(maxRandom - minRandom) + minRandom;
         return ranInt;
+    }
+
+    private void goToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 
@@ -283,4 +297,5 @@ public class SaveTheOcean extends AppCompatActivity {
         super.onStop();
         Log.d(TAG, "onStop: ");
     }
+
 }
