@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">BortMedSkräp</string>
+    <string name="game1_name">Rädda havet</string>
+    <string name="game1_button">Samla %1$s st skräp</string>
+
+    <string name="count_down_1">1</string>
+    <string name="count_down_2">2</string>
+    <string name="count_down_3">3</string>
+    <string name="count_down_start">Börja!</string>
+
+    <string name="fish">Fisk</string>
+    <string name="music_credit">Music: www.bensound.com</string>
+</resources>

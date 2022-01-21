@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/background_gradient_sky">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/header_text"
+        android:text="@string/game1_name"
+        android:gravity="center_horizontal"
+        style="@style/TextviewStyle.Header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </TextView>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_level1"
+        android:layout_margin="20dp"
+        style="@style/ButtonStyle"
+        android:text="@string/game1_button"
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
+        app:layout_constraintBottom_toTopOf="@id/button_level2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </Button>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_level2"
+        android:layout_margin="20dp"
+        style="@style/ButtonStyle"
+        android:text="@string/game1_button"
+        app:layout_constraintTop_toBottomOf="@id/button_level1"
+        app:layout_constraintBottom_toTopOf="@id/button_level3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </Button>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_level3"
+        android:layout_margin="20dp"
+        style="@style/ButtonStyle"
+        android:text="@string/game1_button"
+        app:layout_constraintTop_toBottomOf="@id/button_level2"
+        app:layout_constraintBottom_toBottomOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    </Button>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_trash"
+        android:src="@drawable/trash_group"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="0dp"
+        android:contentDescription="Image trash">
+    </ImageView>
+
+
+
+    <!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/trash_apple"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="3dp"-->
+<!--        android:contentDescription="Image trash">-->
+<!--    </ImageView>-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/buttonSaveTheOcean"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:src="@drawable/button_save_ocean_2"-->
+    <!--        android:background="@drawable/button_start_games"-->
+    <!--        android:contentDescription="Rädda havet"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:adjustViewBounds="true"-->
+    <!--        android:layout_margin="60dp"-->
+    <!--        android:paddingTop="6dp"-->
+    <!--        android:paddingBottom="10dp"-->
+    <!--        android:paddingStart="6dp"-->
+    <!--        android:paddingEnd="10dp">-->
+    <!--    </ImageButton>-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

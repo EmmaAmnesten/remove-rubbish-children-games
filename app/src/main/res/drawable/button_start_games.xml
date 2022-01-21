@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <corners android:radius="25dp"/>
+            <solid android:color="#2068767A"/>
+        </shape>
+    </item>
+    <item
+        android:top="1dp"
+        android:bottom="5dp"
+        android:left="1dp"
+        android:right="5dp">
+        <shape>
+            <gradient
+                android:startColor="#6C8398"
+                android:centerColor="#889DAF"
+                android:endColor="#CCD8E3"
+                android:angle="135"
+                android:centerY="25%"/>
+            <corners android:radius="25dp"/>
+        </shape>
+    </item>
+    <item
+        android:top="6dp"
+        android:bottom="10dp"
+        android:left="6dp"
+        android:right="10dp">
+        <shape>
+            <gradient
+                android:startColor="#809FBA"
+                android:centerColor="#97B2C6"
+                android:endColor="#DAE5ED"
+                android:angle="135"
+                android:centerY="25%"/>
+            <corners android:radius="25dp"/>
+        </shape>
+    </item>
+    <item
+        android:top="6dp"
+        android:bottom="10dp"
+        android:left="6dp"
+        android:right="10dp">
+        <shape>
+            <gradient
+                android:startColor="#C1CCD6"
+                android:centerColor="#00FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:angle="135"
+                android:centerY="15%"/>
+            <corners android:radius="25dp"/>
+        </shape>
+    </item>
+    <item
+        android:top="6dp"
+        android:bottom="10dp"
+        android:left="6dp"
+        android:right="10dp">
+        <shape>
+            <gradient
+                android:startColor="#00FFFFFF"
+                android:centerColor="#00FFFFFF"
+                android:endColor="#F7F8FA"
+                android:angle="135"
+                android:centerY="85%"/>
+            <corners android:radius="25dp"/>
+        </shape>
+    </item>
+</layer-list>
