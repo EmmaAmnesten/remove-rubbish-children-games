@@ -2,16 +2,12 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-11-05.
+ * Stars like a fireworks when game is over.
  */
 
 class Star extends androidx.appcompat.widget.AppCompatImageView {
@@ -33,6 +29,9 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
     float speedY;
     int speedDelay;
 
+    public Star(Context context){
+        super(context);
+    }
 
     public Star(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
                 int displayHeight, int displayWidth) {
@@ -49,8 +48,8 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
 
         setImageResource(drawable);
         constraintLayout.addView(this);
-        setX(displayWidth / 2);
-        setY(displayHeight / 2);
+        setX((Integer)(displayWidth / 2));
+        setY((Integer)(displayHeight / 2));
 
         speedX = randomSpeed();
         speedY = randomSpeed();
@@ -66,8 +65,8 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
 
 
     /**
-     * Flyttar stjärnan i slumpad riktning
-     * och slumpad fart (speedDealay).
+     * Move star in random direction
+     * and random speed (speedDelay)
      */
     public void moveStar(){
 
@@ -80,9 +79,9 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
                 float starPosX = getX();
                 float starPosY = getY();
 
-                if(starPosX > (0 - starHeight)
+                if(starPosX > - starWidth
                         && starPosX < displayWidth
-                        && starPosY > (0 - starWidth)
+                        && starPosY > - starHeight
                         && starPosY < displayHeight){
                     setX(starPosX + speedX);
                     setY(starPosY + speedY);
@@ -98,13 +97,11 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     private float randomSpeed(){
-        float randomInt = new Random().nextInt(20) - 10;
-        return randomInt;
+        return new Random().nextInt(20) - 10;
     }
 
     private int randomDelay(){
-        int randomInt = new Random().nextInt(7) + 5;
-        return randomInt;
+        return new Random().nextInt(7) + 5;
     }
 
     public void removeHandlerStar(){

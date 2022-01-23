@@ -2,7 +2,7 @@ package com.example.bortmedskrp;
 
 /**
  * Created by Emma on 2021-10-15.
- * Klass som definera objekten.
+ * Class som defines objects.
  */
 
 class ItemsType {

@@ -1,28 +1,25 @@
 package com.example.bortmedskrp;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.util.Log;
-import android.widget.ImageView;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
-
-import java.lang.reflect.Array;
 import java.util.Random;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-10-15.
- * Objekt i spelet. Slumpas vad det är för objekt från itemType och sen läggs det till i spelet.
+ * Object in game. Random item type and add to game.
  */
 
 class Item extends androidx.appcompat.widget.AppCompatImageView {
 
+    private static final int miniSpeed = 6;
+    private static final int maxSpeed = 15;
+
     String name;
     int drawable;
     Boolean isTrash;
+    int speed;
 
     SaveTheOcean saveTheOcean;
     int displayHeight;
@@ -30,6 +27,9 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
     Handler handler;
     Runnable runnable;
 
+    public Item(Context context){
+        super(context);
+    }
 
     public Item(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
                 int displayHeight, int displayWidth, int itemWidthHeight) {
@@ -40,6 +40,7 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         name = items.name();
         drawable = items.drawableValue;
         isTrash = items.ifTrashValue;
+        speed = new Random().nextInt(maxSpeed - miniSpeed) + miniSpeed;
 
         saveTheOcean = (SaveTheOcean) context;
         this.displayHeight = displayHeight;
@@ -61,9 +62,12 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         return isTrash;
     }
 
+    public int getSpeed(){
+        return speed;
+    }
+
     /**
-     * Förflyttar objektet neråt.
-     * item-objekt i spelet som faller neråt.
+     * Move item down in game.
      */
     public void moveItemDown(){
 
@@ -76,7 +80,7 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
                 float itemPosY = getY();
 
                 if(itemPosY < displayHeight){
-                    setY(itemPosY+10);
+                    setY(itemPosY + speed);
                     handler.postDelayed(this,25);
                 }else {
                     saveTheOcean.removeItemFromGame(item);

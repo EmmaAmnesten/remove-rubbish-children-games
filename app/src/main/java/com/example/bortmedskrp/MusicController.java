@@ -1,11 +1,6 @@
 package com.example.bortmedskrp;
 
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.util.Log;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-10-25.
@@ -19,14 +14,11 @@ class MusicController {
 
     public MusicController(SaveTheOcean saveTheOcean){
         this.saveTheOcean = saveTheOcean;
-
     }
 
     public void startBackgroundOcean(){
-        Log.d(TAG, "startBackgroundOcean: " + musicOcean);
         musicOcean = MediaPlayer.create(saveTheOcean, R.raw.backgrund_music);
         musicOcean.start();
-        Log.d(TAG, "startBackgroundOcean: ");
     }
 
     public void stopBackgroundOcean(){

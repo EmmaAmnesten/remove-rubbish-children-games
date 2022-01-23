@@ -16,10 +16,11 @@ import java.util.Random;
 class AnimationsImage {
 
     ImageView fishView;
+    AnimationDrawable animationCountDown;
+    CustomAnimationDrawableNew customAnimation;
 
     public AnimationsImage(ImageView fishView){
         this.fishView = fishView;
-
     }
 
     public void setStartFish(){
@@ -66,19 +67,19 @@ class AnimationsImage {
         ImageView finishImageView = new ImageView(saveTheOcean);
         finishImageView.setBackgroundResource(R.drawable.rainbow4);
         saveTheOcean.constraintLayout.addView(finishImageView);
-        finishImageView.setY(- (displayWidth / 2));
+        finishImageView.setY((Integer)(- (displayWidth / 2)));
         finishImageView.setX(displayWidth);
 
         Animation animation1 = AnimationUtils.loadAnimation(saveTheOcean.getApplicationContext(), R.anim.animation_finish_rainbow);
         finishImageView.startAnimation(animation1);
     }
 
-    public void countDownStartGame(SaveTheOcean saveTheOcean, ImageView imageView){
+    public void countDownAnimation(SaveTheOcean saveTheOcean, ImageView imageView){
         imageView.setBackground(null);
         imageView.setBackgroundResource(R.drawable.animation_count_down_text);
-        AnimationDrawable animationCountDown = (AnimationDrawable) imageView.getBackground();
+        animationCountDown = (AnimationDrawable) imageView.getBackground();
 
-        CustomAnimationDrawableNew customAnimation = new CustomAnimationDrawableNew(animationCountDown) {
+        customAnimation = new CustomAnimationDrawableNew(animationCountDown) {
             @Override
             public void onAnimationStart() {
             }
@@ -96,18 +97,9 @@ class AnimationsImage {
         customAnimation.start();
     }
 
-    public void finishStars(SaveTheOcean saveTheOcean){
-        for (int i = 0; i < 20; i++) {
-            ImageView starImageView = new ImageView(saveTheOcean);
-            starImageView.setBackgroundResource(R.drawable.star1);
-            saveTheOcean.constraintLayout.addView(starImageView);
-            starImageView.setY(0);
-            starImageView.setX(0);
+    public void stopCountDownAnimation(){
 
-
-        }
-
-
+        customAnimation.stop();
     }
 
 }

@@ -1,17 +1,10 @@
 package com.example.bortmedskrp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 
-import java.time.Instant;
-
-import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,24 +25,9 @@ public class MainActivity extends AppCompatActivity {
         buttonGameSaveTheOceanLevel2.setText(getString(R.string.game1_button, String.valueOf(level2Num)));
         buttonGameSaveTheOceanLevel3.setText(getString(R.string.game1_button, String.valueOf(level3Num)));
 
-        buttonGameSaveTheOceanLevel1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGameSaveOcean(level1Num);
-            }
-        });
-        buttonGameSaveTheOceanLevel2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGameSaveOcean(level2Num);
-            }
-        });
-        buttonGameSaveTheOceanLevel3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGameSaveOcean(level3Num);
-            }
-        });
+        buttonGameSaveTheOceanLevel1.setOnClickListener(v -> startGameSaveOcean(level1Num));
+        buttonGameSaveTheOceanLevel2.setOnClickListener(v -> startGameSaveOcean(level2Num));
+        buttonGameSaveTheOceanLevel3.setOnClickListener(v -> startGameSaveOcean(level3Num));
     }
 
 

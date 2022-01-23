@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static android.content.ContentValues.TAG;
+
 
 public class SaveTheOcean extends AppCompatActivity {
 
@@ -72,13 +74,6 @@ public class SaveTheOcean extends AppCompatActivity {
         fishWidthHeight = displayWidth/displayDividerFishWidth;
         itemWidthHeight = displayWidth/displayDividerItemWidth;
 
-
-
-        Log.d(TAG, "onCreate: brädd " + displayWidth);
-        Log.d(TAG, "onCreate: brädd item " + displayWidth/displayDividerItemWidth);
-        Log.d(TAG, "onCreate: density " + getResources().getDisplayMetrics().density);
-        Log.d(TAG, "onCreate: densitydpi " + getResources().getDisplayMetrics().densityDpi);
-
         musicController = new MusicController(this);
         animationsImage = new AnimationsImage(fishView);
         itemsType = new ItemsType();
@@ -88,13 +83,11 @@ public class SaveTheOcean extends AppCompatActivity {
         ifCountdownDone = false;
         ifGameFinish = false;
 
-        Log.d(TAG, "onCreate: " + ifCountdownDone);
-
         setUpStartScreen();
     }
 
     /**
-     * Sätter upp en start vy.
+     * Sets up a start view .
      */
     private void setUpStartScreen(){
         animationsImage.setStartFish();
@@ -110,17 +103,17 @@ public class SaveTheOcean extends AppCompatActivity {
     }
 
     /**
-     * Startar spelet med att räkna ner med en animaton. och sen startar spelet.
-     * Metoden randomSpanTimeItem startas från klassen AnimationsImage när animationen är slut.
+     * Start a animation and then the game starts.
+     * When animations is done method randomSpanTimeItem starts from class AnimationsImage.
      */
     private void countDownStartGame(){
-        animationsImage.countDownStartGame(this, countDownView);
+        animationsImage.countDownAnimation(this, countDownView);
     }
 
     /**
-     * Körs när animation contDownStartGame är klar. Startas från AnimationsImage klass
-     * Olika lång tid mellan att det läggs till nytt objekt till spelet.
-     * Slutar när spelet är slut.
+     * This method starts when animation countDownStartGame is finish. Starts from class AnimationsImage.
+     *
+     * Runnable with random delay to add new Item.
      */
     public void randomSpanTimeItem() {
         handlerGame = new Handler();
@@ -128,41 +121,30 @@ public class SaveTheOcean extends AppCompatActivity {
             @Override
             public void run() {
                 addNewItem();
-                handlerGame.postDelayed(this, randomInt(minSpanDelayItem, maxSpanDelayItem));
+                handlerGame.postDelayed(this, randomInt());
             }
         };
         handlerGame.post(runnableGame);
     }
 
     /**
-     * Lägger till nya objekt till spelet.
+     * Adds new Item to game.
      */
     private void addNewItem(){
         Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth, itemWidthHeight);
         itemsInGame.add(item);
-//        for (Item i : itemsInGame){
-//            Log.d(TAG, "addNewItem: " + i.getName());
-//        }
-        item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClicked(item);
-            }
-        });
+        item.setOnClickListener(v -> itemClicked(item));
         item.moveItemDown();
     }
 
     /**
-     * När objektet är klickat händer:
-     * Om skräp:
-     *  -Räkna upp points +1
-     *  -Progressbar indekerar antal poäng förhållande till mål poäng.
-     *  -Objektet tas bort.
-     * Om djur:
-     *  -Animation
-     *  -Räkna upp points -1
-     *  -Progressbar indekerar antal poäng förhållande till mål poäng.
-     * @param item kan vara skräp eller inte (Boolean).
+     * When Item is clicked:
+     * If rubbish points +1, if animal points -1.
+     * Music and fish animation.
+     * Progressbar is update.
+     * Item removes from game.
+     *
+     * @param item can be rubbish or not (Boolean).
      */
     private void itemClicked(Item item){
         animationsImage.fishEyeUp();
@@ -192,7 +174,6 @@ public class SaveTheOcean extends AppCompatActivity {
     }
 
     private void gameOver(){
-        Log.d(TAG, "gameOver: ");
         animationsImage.finishRainbow(this, displayWidth);
         musicController.startFinishApplause();
         TextView musicCredit = findViewById(R.id.textviewCredit);
@@ -200,7 +181,6 @@ public class SaveTheOcean extends AppCompatActivity {
         for(int i = 0; i < 50; i++){
             addStar();
         }
-
 
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
@@ -219,15 +199,12 @@ public class SaveTheOcean extends AppCompatActivity {
         star.removeHandlerStar();
 
         if(starList.size() < 1){
-            Log.d(TAG, "removeStarFromGame: " + starList.size());
             goToMainActivity();
-
         }
     }
 
-    private int randomInt(int minRandom, int maxRandom){
-        int ranInt = new Random().nextInt(maxRandom - minRandom) + minRandom;
-        return ranInt;
+    private int randomInt(){
+        return new Random().nextInt(maxSpanDelayItem - minSpanDelayItem) + minSpanDelayItem;
     }
 
     private void goToMainActivity(){
@@ -235,12 +212,14 @@ public class SaveTheOcean extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     @Override
     protected void onPause(){
         super.onPause();
-        Log.d(TAG, "onPause: ");
-        //gameOver();
+
+        Log.d(TAG, "onPause: " + ifCountdownDone);
+        Log.d(TAG, "onPause: " + animationsImage.customAnimation);
+
+        animationsImage.stopCountDownAnimation();
 
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
@@ -270,14 +249,15 @@ public class SaveTheOcean extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, "onResume: " + itemsInGame.size());
+        Log.d(TAG, "onResume: " + ifCountdownDone);
 
-        //Sätter förflyttning på objekten som finns i arraylistan.
+        //Adds movement on Item in arraylist itemsInGame.
         for (Item i : itemsInGame) {
             i.moveItemDown();
         }
 
-        //Om spelet inte är slut, ska mera objekt läggas till.
+        //If game not over, more Item adds to game.
+        //
         //Kollar om spelet är startat, genoma att kolla om spelet har haft nedräkning när det startas första gången.
         if (!ifGameFinish){
             if (ifCountdownDone) {
@@ -295,7 +275,6 @@ public class SaveTheOcean extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: ");
     }
 
 }
