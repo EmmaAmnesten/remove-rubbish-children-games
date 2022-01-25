@@ -12,21 +12,26 @@ import java.util.Random;
 
 class Star extends androidx.appcompat.widget.AppCompatImageView {
 
-    String name;
-    int drawable;
+    private static final int negativeSpeedSpan = 10;
+    private static final int maxSpeedSpan = 20;
+    private static final int minDelay = 4;
+    private static final int maxDelay = 8;
 
     SaveTheOcean saveTheOcean;
-    int displayHeight;
-    int displayWidth;
-
-    int starHeight;
-    int starWidth;
 
     Handler handler;
     Runnable runnable;
 
-    float speedX;
-    float speedY;
+    String name;
+    int drawable;
+
+    int displayHeight;
+    int displayWidth;
+    int starHeight;
+    int starWidth;
+
+    int directionSpeedX;
+    int directionSpeedY;
     int speedDelay;
 
     public Star(Context context){
@@ -36,27 +41,34 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
     public Star(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
                 int displayHeight, int displayWidth) {
         super(context);
-        int randomInt = new Random().nextInt(itemsType.getStarLength());
-        ItemsType.stars star = itemsType.getStarByPosition(randomInt);
-
-        name = star.name();
-        drawable = star.drawableValue;
 
         saveTheOcean = (SaveTheOcean) context;
         this.displayHeight = displayHeight;
         this.displayWidth = displayWidth;
+
+        ItemsType.stars star = itemsType.getStarByPosition(randomInt(0, itemsType.getStarLength()));
+        name = star.name();
+        drawable = star.drawableValue;
 
         setImageResource(drawable);
         constraintLayout.addView(this);
         setX((Integer)(displayWidth / 2));
         setY((Integer)(displayHeight / 2));
 
-        speedX = randomSpeed();
-        speedY = randomSpeed();
-        speedDelay = randomDelay();
+        directionSpeedX = randomIntNegativeSpan();
+        directionSpeedY = randomIntNegativeSpan();
+        speedDelay = randomInt(minDelay, maxDelay);
 
         starHeight = getDrawable().getIntrinsicHeight();
         starWidth = getDrawable().getIntrinsicWidth();
+    }
+
+    private int randomInt(int fromInt, int toInt){
+        return new Random().nextInt(toInt - fromInt) - fromInt;
+    }
+
+    private int randomIntNegativeSpan(){
+        return new Random().nextInt(maxSpeedSpan) - negativeSpeedSpan;
     }
 
     public String getName() {
@@ -83,8 +95,8 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
                         && starPosX < displayWidth
                         && starPosY > - starHeight
                         && starPosY < displayHeight){
-                    setX(starPosX + speedX);
-                    setY(starPosY + speedY);
+                    setX(starPosX + directionSpeedX);
+                    setY(starPosY + directionSpeedY);
                     handler.postDelayed(this, speedDelay);
                 }else {
                     saveTheOcean.removeStarFromGame(star);
@@ -96,13 +108,7 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
         handler.post(runnable);
     }
 
-    private float randomSpeed(){
-        return new Random().nextInt(20) - 10;
-    }
 
-    private int randomDelay(){
-        return new Random().nextInt(7) + 5;
-    }
 
     public void removeHandlerStar(){
         handler.removeCallbacks(runnable);

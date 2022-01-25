@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGameSaveOcean(int levelNum){
         Intent intent = new Intent(this, SaveTheOcean.class)
-                .putExtra("EXTRA_TEXT", String.valueOf(levelNum));
+                .putExtra("EXTRA_TEXT_LEVEL", String.valueOf(levelNum));
         startActivity(intent);
     }
 

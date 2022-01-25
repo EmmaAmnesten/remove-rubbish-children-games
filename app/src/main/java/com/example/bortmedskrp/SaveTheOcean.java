@@ -28,27 +28,26 @@ public class SaveTheOcean extends AppCompatActivity {
     final static int displayDividerItemWidth = 6;
     static int goalPoints = 5;
 
+    MusicController musicController;
+    AnimationsImage animationsImage;
+    ItemsType itemsType;
+
+    ArrayList<Item> itemsInGame;
+    ArrayList<Star> starList;
 
     ConstraintLayout constraintLayout;
     ImageView fishView;
     ImageView countDownView;
-
     ProgressBar progressBarPoints;
-    int points;
-
-    int displayHeight;
-    int displayWidth;
-    int fishWidthHeight;
-    int itemWidthHeight;
 
     Handler handlerGame;
     Runnable runnableGame;
 
-    MusicController musicController;
-    AnimationsImage animationsImage;
-    ItemsType itemsType;
-    ArrayList<Item> itemsInGame;
-    ArrayList<Star> starList;
+    int points;
+    int displayHeight;
+    int displayWidth;
+    int fishWidthHeight;
+    int itemWidthHeight;
 
     Boolean ifCountdownDone;
     Boolean ifGameFinish;
@@ -60,19 +59,12 @@ public class SaveTheOcean extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_the_ocean);
 
-        goalPoints = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT"));
+        goalPoints = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT_LEVEL"));
 
         constraintLayout = findViewById(R.id.constraintLayout);
         countDownView = findViewById(R.id.downCounterView);
         fishView = findViewById(R.id.fishView);
         progressBarPoints = findViewById(R.id.progressBarPoints);
-        points = 0;
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        displayHeight = displayMetrics.heightPixels;
-        displayWidth = displayMetrics.widthPixels;
-        fishWidthHeight = displayWidth/displayDividerFishWidth;
-        itemWidthHeight = displayWidth/displayDividerItemWidth;
 
         musicController = new MusicController(this);
         animationsImage = new AnimationsImage(fishView);
@@ -80,8 +72,15 @@ public class SaveTheOcean extends AppCompatActivity {
         itemsInGame = new ArrayList<>();
         starList = new ArrayList<>();
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        displayHeight = displayMetrics.heightPixels;
+        displayWidth = displayMetrics.widthPixels;
+
+        points = 0;
         ifCountdownDone = false;
         ifGameFinish = false;
+        itemsInGame.clear();
 
         setUpStartScreen();
     }
@@ -90,16 +89,18 @@ public class SaveTheOcean extends AppCompatActivity {
      * Sets up a start view .
      */
     private void setUpStartScreen(){
+        fishWidthHeight = displayWidth/displayDividerFishWidth;
+        itemWidthHeight = displayWidth/displayDividerItemWidth;
         animationsImage.setStartFish();
         fishView.getLayoutParams().width = fishWidthHeight;
         fishView.getLayoutParams().height = fishWidthHeight;
+
         progressBarPoints.setMax(goalPoints);
         progressBarPoints.setProgress(0);
         progressBarPoints.setScaleY(4f);
 
         musicController.startBackgroundOcean();
         countDownStartGame();
-        itemsInGame.clear();
     }
 
     /**
@@ -112,7 +113,6 @@ public class SaveTheOcean extends AppCompatActivity {
 
     /**
      * This method starts when animation countDownStartGame is finish. Starts from class AnimationsImage.
-     *
      * Runnable with random delay to add new Item.
      */
     public void randomSpanTimeItem() {
@@ -148,11 +148,8 @@ public class SaveTheOcean extends AppCompatActivity {
      */
     private void itemClicked(Item item){
         animationsImage.fishEyeUp();
-        if(item.isTrash) {
-            musicController.startTrashClickSound();
-        }else{
-            musicController.startAnimalClickSound();
-        }
+        musicController.soundItemClick(item);
+
         if(item.getIsTrash() && !ifGameFinish){
             points = points + 1;
             progressBarPoints.setProgress(points);
@@ -256,9 +253,9 @@ public class SaveTheOcean extends AppCompatActivity {
             i.moveItemDown();
         }
 
-        //If game not over, more Item adds to game.
+        //If game not over, add Item from array itemInGame to game.
         //
-        //Kollar om spelet är startat, genoma att kolla om spelet har haft nedräkning när det startas första gången.
+        //Check if game have had countdown.
         if (!ifGameFinish){
             if (ifCountdownDone) {
                 randomSpanTimeItem();

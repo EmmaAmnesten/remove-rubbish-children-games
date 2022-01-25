@@ -34,24 +34,27 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
     public Item(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
                 int displayHeight, int displayWidth, int itemWidthHeight) {
         super(context);
-        int randomInt = new Random().nextInt(itemsType.getItemsLength());
-        ItemsType.items items = itemsType.getItemByPosition(randomInt);
-
-        name = items.name();
-        drawable = items.drawableValue;
-        isTrash = items.ifTrashValue;
-        speed = new Random().nextInt(maxSpeed - miniSpeed) + miniSpeed;
 
         saveTheOcean = (SaveTheOcean) context;
         this.displayHeight = displayHeight;
+
+        ItemsType.items items = itemsType.getItemByPosition(randomInt(0, itemsType.getItemsLength()));
+        name = items.name();
+        drawable = items.drawableValue;
+        isTrash = items.ifTrashValue;
 
         setImageResource(drawable);
         constraintLayout.addView(this);
         getLayoutParams().width = itemWidthHeight;
         getLayoutParams().height = itemWidthHeight;
-        int posX = new Random().nextInt(displayWidth - itemWidthHeight);
-        setX(posX);
+        setX(randomInt(0, displayWidth - itemWidthHeight));
         setY(-itemWidthHeight);
+
+        speed = randomInt(miniSpeed, maxSpeed);
+    }
+
+    private int randomInt(int fromInt, int toInt){
+        return new Random().nextInt(toInt - fromInt) + fromInt;
     }
 
     public String getName() {

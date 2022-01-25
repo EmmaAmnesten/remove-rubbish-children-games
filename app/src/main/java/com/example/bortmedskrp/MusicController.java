@@ -44,4 +44,12 @@ class MusicController {
         musicApplause.stop();
     }
 
+    public void soundItemClick(Item item){
+        if(item.getIsTrash()) {
+            startTrashClickSound();
+        }else{
+            startAnimalClickSound();
+        }
+    }
+
 }
