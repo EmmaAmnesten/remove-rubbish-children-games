@@ -24,7 +24,7 @@ class AnimationsImage {
     }
 
     public void setStartFish(){
-        fishView.setBackgroundResource(R.drawable.fish1_middle);
+        fishView.setBackgroundResource(R.drawable.bigfish_eyes_middle);
     }
 
     /**
@@ -33,7 +33,7 @@ class AnimationsImage {
     public void fishEyeUp(){
 
         fishView.setBackground(null);
-        fishView.setBackgroundResource(R.drawable.animation_eye_up);
+        fishView.setBackgroundResource(R.drawable.anim_bigfish_eye_up);
         AnimationDrawable animationEyeUp = (AnimationDrawable) fishView.getBackground();
 
         CustomAnimationDrawableNew customAnimation = new CustomAnimationDrawableNew(animationEyeUp) {
@@ -58,14 +58,14 @@ class AnimationsImage {
 
     public void fishEyeClosed(){
         fishView.setBackground(null);
-        fishView.setBackgroundResource(R.drawable.animation_eye_closed);
+        fishView.setBackgroundResource(R.drawable.anim_bigfish_eyes_closed);
         AnimationDrawable animationClosed = (AnimationDrawable) fishView.getBackground();
         animationClosed.start();
     }
 
     public void finishRainbow(SaveTheOcean saveTheOcean, int displayWidth){
         ImageView finishImageView = new ImageView(saveTheOcean);
-        finishImageView.setBackgroundResource(R.drawable.rainbow4);
+        finishImageView.setBackgroundResource(R.drawable.end_rainbow);
         saveTheOcean.constraintLayout.addView(finishImageView);
         finishImageView.setY((Integer)(- (displayWidth / 2)));
         finishImageView.setX(displayWidth);
@@ -76,7 +76,7 @@ class AnimationsImage {
 
     public void countDownAnimation(SaveTheOcean saveTheOcean, ImageView imageView){
         imageView.setBackground(null);
-        imageView.setBackgroundResource(R.drawable.animation_count_down_text);
+        imageView.setBackgroundResource(R.drawable.anim_start_count_down_text);
         animationCountDown = (AnimationDrawable) imageView.getBackground();
 
         customAnimation = new CustomAnimationDrawableNew(animationCountDown) {

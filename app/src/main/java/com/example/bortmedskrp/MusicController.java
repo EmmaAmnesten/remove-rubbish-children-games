@@ -17,7 +17,7 @@ class MusicController {
     }
 
     public void startBackgroundOcean(){
-        musicOcean = MediaPlayer.create(saveTheOcean, R.raw.backgrund_music);
+        musicOcean = MediaPlayer.create(saveTheOcean, R.raw.backgrund_music_game);
         musicOcean.start();
     }
 
@@ -26,17 +26,17 @@ class MusicController {
     }
 
     public void startAnimalClickSound(){
-        MediaPlayer musicAnimal = MediaPlayer.create(saveTheOcean, R.raw.animal_plop);
+        MediaPlayer musicAnimal = MediaPlayer.create(saveTheOcean, R.raw.item_animal_oncklick_plop);
         musicAnimal.start();
     }
 
     public void startTrashClickSound(){
-        MediaPlayer musicTrash = MediaPlayer.create(saveTheOcean, R.raw.trash_bling);
+        MediaPlayer musicTrash = MediaPlayer.create(saveTheOcean, R.raw.item_trash_onclick_bling);
         musicTrash.start();
     }
 
     public void startFinishApplause(){
-        musicApplause = MediaPlayer.create(saveTheOcean, R.raw.applause);
+        musicApplause = MediaPlayer.create(saveTheOcean, R.raw.end_applause);
         musicApplause.start();
     }
 

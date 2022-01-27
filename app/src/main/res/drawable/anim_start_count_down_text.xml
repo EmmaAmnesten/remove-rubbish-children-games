@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="true"
+    android:repeatMode="restart"
+    android:repeatCount="-1"
+    android:startOffset="500">
+
+    <item android:drawable="@drawable/start_count_down_3" android:duration="900"/>
+    <item android:drawable="@drawable/start_count_down_2" android:duration="900"/>
+    <item android:drawable="@drawable/start_count_down_1" android:duration="900"/>
+    <item android:drawable="@drawable/start_count_down_start" android:duration="900"/>
+
+</animation-list>

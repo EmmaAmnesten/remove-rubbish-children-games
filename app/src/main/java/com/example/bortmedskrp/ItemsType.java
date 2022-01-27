@@ -8,14 +8,14 @@ package com.example.bortmedskrp;
 class ItemsType {
 
     public enum items{
-        BANANA(R.drawable.trash_banana, true),
-        BAG(R.drawable.trash_bag, true),
-        APPLE(R.drawable.trash_apple, true),
-        TIN(R.drawable.trash_tin, true),
-        CAN(R.drawable.trash_can, true),
-        FISH1(R.drawable.animal_fish_1, false),
-        FISH2(R.drawable.animal_fish_2, false),
-        JELLYFISH(R.drawable.animal_jellyfish, false);
+        BANANA(R.drawable.item_trash_banana, true),
+        BAG(R.drawable.item_trash_bag, true),
+        APPLE(R.drawable.item_trash_apple, true),
+        TIN(R.drawable.item_trash_tin, true),
+        CAN(R.drawable.item_trash_can, true),
+        FISH1(R.drawable.item_animal_fish_1, false),
+        FISH2(R.drawable.item_animal_fish_2, false),
+        JELLYFISH(R.drawable.item_animal_jellyfish, false);
 
 
         int drawableValue;
@@ -27,12 +27,12 @@ class ItemsType {
     }
 
     public enum stars{
-        STAR1(R.drawable.star1),
-        STAR2(R.drawable.star2),
-        STAR3(R.drawable.star3),
-        STAR4(R.drawable.star4),
-        STAR5(R.drawable.star5),
-        STAR6(R.drawable.star6);
+        STAR1(R.drawable.end_star_pink),
+        STAR2(R.drawable.end_star_orange),
+        STAR3(R.drawable.end_star_purple),
+        STAR4(R.drawable.end_star_yellow),
+        STAR5(R.drawable.end_star_green),
+        STAR6(R.drawable.end_star_blue);
 
 
         int drawableValue;
