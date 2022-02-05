@@ -226,11 +226,11 @@ public class SaveTheOcean extends AppCompatActivity {
             i.removeHandlerItem();
         }
 
-        if (musicController.musicOcean != null){
+        if (musicController.backgroundMusicGame != null){
             musicController.stopBackgroundOcean();
             if (isFinishing()){
                 musicController.stopBackgroundOcean();
-                musicController.musicOcean.release();
+                musicController.backgroundMusicGame.release();
             }
         }
         if (musicController.musicApplause != null){
@@ -262,8 +262,8 @@ public class SaveTheOcean extends AppCompatActivity {
             }
         }
 
-        if (musicController.musicOcean != null) {
-            if (!musicController.musicOcean.isPlaying()) {
+        if (musicController.backgroundMusicGame != null) {
+            if (!musicController.backgroundMusicGame.isPlaying()) {
                 musicController.startBackgroundOcean();
             }
         }
