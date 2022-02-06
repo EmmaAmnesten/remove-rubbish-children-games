@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="windows-1252">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/raw/476178__unadamlar__correct-choice.wav" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/raw/applause.mp3" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/raw/end_applause.mp3" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/raw/item_animal_oncklick_plop.mp3" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/raw/item_animal_onclick_plop.mp3" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/raw/item_trash_oncklick_sound_test.wav" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/raw/item_trash_onclick_bling.wav" charset="UTF-8" />
   </component>
 </project>

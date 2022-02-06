@@ -233,11 +233,11 @@ public class SaveTheOcean extends AppCompatActivity {
                 musicController.backgroundMusicGame.release();
             }
         }
-        if (musicController.musicApplause != null){
+        if (musicController.soundApplause != null){
             musicController.stopApplause();
             if (isFinishing()){
                 musicController.stopApplause();
-                musicController.musicApplause.release();
+                musicController.soundApplause.release();
             }
         }
     }

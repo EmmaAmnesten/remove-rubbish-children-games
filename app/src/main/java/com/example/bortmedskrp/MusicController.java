@@ -1,9 +1,7 @@
 package com.example.bortmedskrp;
 
+import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Log;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-10-25.
@@ -11,49 +9,46 @@ import static android.content.ContentValues.TAG;
 
 class MusicController {
 
-    SaveTheOcean saveTheOcean;
+    Context context;
     MediaPlayer backgroundMusicGame;
-    MediaPlayer musicAnimal;
-    MediaPlayer musicTrash;
-    MediaPlayer musicApplause;
+    MediaPlayer soundApplause;
 
-    public MusicController(SaveTheOcean saveTheOcean){
-        Log.d(TAG, "MusicController: ++++++++++++++++++");
-        this.saveTheOcean = saveTheOcean;
-        backgroundMusicGame = MediaPlayer.create(saveTheOcean, R.raw.backgrund_music_bensound_smile);
-        musicAnimal = MediaPlayer.create(saveTheOcean, R.raw.item_animal_oncklick_plop);
-        musicTrash = MediaPlayer.create(saveTheOcean, R.raw.item_trash_onclick_bling);
-        musicApplause = MediaPlayer.create(saveTheOcean, R.raw.end_applause);
+    public MusicController(Context context){
+        this.context = context;
     }
 
     public void startBackgroundOcean(){
-
+        if (backgroundMusicGame == null){
+            backgroundMusicGame = MediaPlayer.create(context, R.raw.bensoundbuddy);
+        }
+        backgroundMusicGame.setLooping(true);
         backgroundMusicGame.start();
     }
 
     public void stopBackgroundOcean(){
         backgroundMusicGame.stop();
-        //backgroundMusicGame.release();
     }
 
     public void startAnimalClickSound(){
-
-        musicAnimal.start();
+        MediaPlayer soundAnimal = MediaPlayer.create(context, R.raw.item_animal_onclick_plop);
+        soundAnimal.setOnCompletionListener(mp -> soundAnimal.stop());
+        soundAnimal.start();
     }
 
     public void startTrashClickSound(){
-
-        Log.d(TAG, "startTrashClickSound: " + musicTrash);
-        musicTrash.start();
+        MediaPlayer soundTrash = MediaPlayer.create(context, R.raw.item_trash_onclick_pling);
+        soundTrash.setOnCompletionListener(mp -> soundTrash.stop());
+        soundTrash.start();
     }
 
     public void startFinishApplause(){
-
-        musicApplause.start();
+        soundApplause = MediaPlayer.create(context, R.raw.end_applause);
+        soundApplause.setOnCompletionListener(mp -> soundApplause.stop());
+        soundApplause.start();
     }
 
     public void stopApplause(){
-        musicApplause.stop();
+        soundApplause.stop();
     }
 
     public void soundItemClick(Item item){
