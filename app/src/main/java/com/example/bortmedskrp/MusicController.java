@@ -2,6 +2,10 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.provider.MediaStore;
+import android.util.Log;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-10-25.
@@ -11,6 +15,9 @@ class MusicController {
 
     Context context;
     MediaPlayer backgroundMusicGame;
+    MediaPlayer soundAnimal;
+    MediaPlayer soundTrash;
+    MediaPlayer soundItem;
     MediaPlayer soundApplause;
 
     public MusicController(Context context){
@@ -29,18 +36,6 @@ class MusicController {
         backgroundMusicGame.stop();
     }
 
-    public void startAnimalClickSound(){
-        MediaPlayer soundAnimal = MediaPlayer.create(context, R.raw.item_animal_onclick_plop);
-        soundAnimal.setOnCompletionListener(mp -> soundAnimal.stop());
-        soundAnimal.start();
-    }
-
-    public void startTrashClickSound(){
-        MediaPlayer soundTrash = MediaPlayer.create(context, R.raw.item_trash_onclick_pling);
-        soundTrash.setOnCompletionListener(mp -> soundTrash.stop());
-        soundTrash.start();
-    }
-
     public void startFinishApplause(){
         soundApplause = MediaPlayer.create(context, R.raw.end_applause);
         soundApplause.setOnCompletionListener(mp -> soundApplause.stop());
@@ -52,11 +47,16 @@ class MusicController {
     }
 
     public void soundItemClick(Item item){
-        if(item.getIsTrash()) {
-            startTrashClickSound();
-        }else{
-            startAnimalClickSound();
+        if (soundItem != null && soundItem.isPlaying()){
+            soundItem.release();
         }
+        if(item.getIsTrash()){
+            soundItem = MediaPlayer.create(context, R.raw.item_trash_onclick_pling);
+        }else{
+            soundItem = MediaPlayer.create(context, R.raw.item_animal_onclick_plop);
+        }
+
+        soundItem.start();
     }
 
 }
