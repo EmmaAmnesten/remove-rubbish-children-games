@@ -41,16 +41,20 @@ public class SaveTheOcean extends AppCompatActivity {
     ProgressBar progressBarPoints;
 
     Handler handlerGame;
+    Handler handlerCounter;
     Runnable runnableGame;
+    Runnable runnableCounter;
 
+    int counterCountDown;
     int points;
     int displayHeight;
     int displayWidth;
     int fishWidthHeight;
     int itemWidthHeight;
 
-    Boolean ifCountdownDone;
-    Boolean ifGameFinish;
+    boolean ifGameFinish;
+
+
 
 
 
@@ -77,8 +81,8 @@ public class SaveTheOcean extends AppCompatActivity {
         displayHeight = displayMetrics.heightPixels;
         displayWidth = displayMetrics.widthPixels;
 
+        counterCountDown = 3;
         points = 0;
-        ifCountdownDone = false;
         ifGameFinish = false;
         itemsInGame.clear();
 
@@ -100,15 +104,37 @@ public class SaveTheOcean extends AppCompatActivity {
         progressBarPoints.setScaleY(4f);
 
         musicController.startBackgroundOcean();
-        countDownStartGame();
+        //countDownStartGame();
     }
 
     /**
-     * Start a animation and then the game starts.
+     * Start a animation and then the game starts. Starts from onResume.
      * When animations is done method randomSpanTimeItem starts from class AnimationsImage.
      */
-    private void countDownStartGame(){
-        animationsImage.countDownAnimation(this, countDownView);
+    public void countDownStartGame(){
+
+        handlerCounter = new Handler();
+        runnableCounter = new Runnable() {
+            @Override
+            public void run() {
+                if(counterCountDown == 3){
+                    countDownView.setImageResource(R.drawable.start_count_down_3);
+                }else if(counterCountDown == 2){
+                    countDownView.setImageResource(R.drawable.start_count_down_2);
+                }else if(counterCountDown == 1){
+                    countDownView.setImageResource(R.drawable.start_count_down_1);
+                }else if(counterCountDown == 0){
+                    countDownView.setImageResource(R.drawable.start_count_down_start);
+                }else{
+                    countDownView.setVisibility(View.INVISIBLE);
+                    randomSpanTimeItem();
+                    return;
+                }
+                counterCountDown --;
+                handlerCounter.postDelayed(this, 1000);
+            }
+        };
+        handlerCounter.post(runnableCounter);
     }
 
     /**
@@ -213,13 +239,11 @@ public class SaveTheOcean extends AppCompatActivity {
     protected void onPause(){
         super.onPause();
 
-        Log.d(TAG, "onPause: " + ifCountdownDone);
-        Log.d(TAG, "onPause: " + animationsImage.customAnimation);
-
-        animationsImage.stopCountDownAnimation();
-
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
+        }
+        if(handlerCounter != null){
+            handlerCounter.removeCallbacks(runnableCounter);
         }
 
         for (Item i : itemsInGame){
@@ -231,6 +255,7 @@ public class SaveTheOcean extends AppCompatActivity {
             if (isFinishing()){
                 musicController.stopBackgroundOcean();
                 musicController.backgroundMusicGame.release();
+                musicController.backgroundMusicGame = null;
             }
         }
         if (musicController.soundApplause != null){
@@ -246,27 +271,24 @@ public class SaveTheOcean extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.d(TAG, "onResume: " + ifCountdownDone);
-
         //Adds movement on Item in arraylist itemsInGame.
         for (Item i : itemsInGame) {
             i.moveItemDown();
         }
 
-        //If game not over, add Item from array itemInGame to game.
-        //
-        //Check if game have had countdown.
-        if (!ifGameFinish){
-            if (ifCountdownDone) {
-                randomSpanTimeItem();
-            }
-        }
 
-        if (musicController.backgroundMusicGame != null) {
-            if (!musicController.backgroundMusicGame.isPlaying()) {
-                musicController.startBackgroundOcean();
-            }
-        }
+        countDownStartGame();
+//        //Start function to add more item to game.
+//        if (!ifGameFinish){
+//            if (!animationsImage.getCountDownStopped()) {
+//                //randomSpanTimeItem();
+//            }else{
+//                //countDownStartGame();
+//            }
+//        }
+
+        musicController.startBackgroundOcean();
+
     }
 
     @Override

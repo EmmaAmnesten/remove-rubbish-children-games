@@ -1,7 +1,6 @@
 package com.example.bortmedskrp;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -10,17 +9,21 @@ import java.util.Random;
 
 /**
  * Created by  on 2021-10-19.
- * Hanterar alla drawable animationer.
+ * Class for all drawable animation.
  */
 
 class AnimationsImage {
 
     ImageView fishView;
-    AnimationDrawable animationCountDown;
-    CustomAnimationDrawableNew customAnimation;
+    boolean ifCountDownStopped;
+    boolean ifCountDownDone;
+    boolean ifCountDownIsRunning;
 
     public AnimationsImage(ImageView fishView){
         this.fishView = fishView;
+        ifCountDownStopped = false;
+        ifCountDownDone = false;
+        ifCountDownIsRunning = false;
     }
 
     public void setStartFish(){
@@ -28,7 +31,7 @@ class AnimationsImage {
     }
 
     /**
-     * Tittar upp och sen slupas om fisken också ska blinka. Binkar 1 av 3 gånger.
+     * Fish looks up and random if fish also blinks. Blinks 1 av 3 times.
      */
     public void fishEyeUp(){
 
@@ -73,33 +76,4 @@ class AnimationsImage {
         Animation animation1 = AnimationUtils.loadAnimation(saveTheOcean.getApplicationContext(), R.anim.animation_finish_rainbow);
         finishImageView.startAnimation(animation1);
     }
-
-    public void countDownAnimation(SaveTheOcean saveTheOcean, ImageView imageView){
-        imageView.setBackground(null);
-        imageView.setBackgroundResource(R.drawable.anim_start_count_down_text);
-        animationCountDown = (AnimationDrawable) imageView.getBackground();
-
-        customAnimation = new CustomAnimationDrawableNew(animationCountDown) {
-            @Override
-            public void onAnimationStart() {
-            }
-
-            @Override
-            public void onAnimationFinish() {
-                saveTheOcean.ifCountdownDone = true;
-                saveTheOcean.randomSpanTimeItem();
-                imageView.setVisibility(View.INVISIBLE);
-            }
-        };
-
-        imageView.setBackgroundDrawable(customAnimation);
-        customAnimation.setOneShot(true);
-        customAnimation.start();
-    }
-
-    public void stopCountDownAnimation(){
-
-        customAnimation.stop();
-    }
-
 }

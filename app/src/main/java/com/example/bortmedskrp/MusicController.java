@@ -2,7 +2,6 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import static android.content.ContentValues.TAG;
@@ -15,24 +14,27 @@ class MusicController {
 
     Context context;
     MediaPlayer backgroundMusicGame;
-    MediaPlayer soundAnimal;
-    MediaPlayer soundTrash;
     MediaPlayer soundItem;
     MediaPlayer soundApplause;
+    int backgroundCurrentPosition;
 
     public MusicController(Context context){
         this.context = context;
+        backgroundCurrentPosition = 0;
     }
 
     public void startBackgroundOcean(){
-        if (backgroundMusicGame == null){
-            backgroundMusicGame = MediaPlayer.create(context, R.raw.bensoundbuddy);
+        if (backgroundMusicGame == null || !backgroundMusicGame.isPlaying()){
+            backgroundMusicGame = MediaPlayer.create(context, R.raw.backgrund_music_buddy);
         }
+
         backgroundMusicGame.setLooping(true);
+        backgroundMusicGame.seekTo(backgroundCurrentPosition);
         backgroundMusicGame.start();
     }
 
     public void stopBackgroundOcean(){
+        backgroundCurrentPosition = backgroundMusicGame.getCurrentPosition();
         backgroundMusicGame.stop();
     }
 
