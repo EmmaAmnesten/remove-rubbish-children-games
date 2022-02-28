@@ -1,6 +1,6 @@
 # Save the ocean
 
-A children game where the player must catch rubbish and save the ocean from littering. Target grupe is children 2-4 years. 
+A children game where the player must catch rubbish and save the ocean from littering. Target group is children 2-4 years. 
 
 
 
