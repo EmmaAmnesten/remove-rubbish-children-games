@@ -4,9 +4,9 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 
 /**
- * Created by  on 2021-10-20. Klass tagen från:
+ * Created by  on 2021-10-20. Class taken from:
  * https://stackoverflow.com/questions/2214735/android-animationdrawable-and-knowing-when-animation-ends
- * Kollar längden på animationen och när animationen är klar körs metoden onAnimationFinish.
+ * Check the length on animation, and starts method onAnimationFinish when the animation is done.
  */
 
 public abstract class CustomAnimationDrawableNew extends AnimationDrawable {

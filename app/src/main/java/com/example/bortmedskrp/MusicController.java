@@ -2,9 +2,7 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Log;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by  on 2021-10-25.
@@ -25,7 +23,7 @@ class MusicController {
 
     public void startBackgroundOcean(){
         if (backgroundMusicGame == null || !backgroundMusicGame.isPlaying()){
-            backgroundMusicGame = MediaPlayer.create(context, R.raw.backgrund_music_buddy);
+            backgroundMusicGame = MediaPlayer.create(context, R.raw.music_backgrund_game_buddy);
         }
 
         backgroundMusicGame.setLooping(true);
@@ -39,7 +37,7 @@ class MusicController {
     }
 
     public void startFinishApplause(){
-        soundApplause = MediaPlayer.create(context, R.raw.end_applause);
+        soundApplause = MediaPlayer.create(context, R.raw.sound_end_applause);
         soundApplause.setOnCompletionListener(mp -> soundApplause.stop());
         soundApplause.start();
     }
@@ -53,9 +51,9 @@ class MusicController {
             soundItem.release();
         }
         if(item.getIsTrash()){
-            soundItem = MediaPlayer.create(context, R.raw.item_trash_onclick_pling);
+            soundItem = MediaPlayer.create(context, R.raw.sound_item_trash_onclick_pling);
         }else{
-            soundItem = MediaPlayer.create(context, R.raw.item_animal_onclick_plop);
+            soundItem = MediaPlayer.create(context, R.raw.sound_item_animal_onclick_plop);
         }
 
         soundItem.start();

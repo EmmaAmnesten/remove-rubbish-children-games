@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int level1Num = 5;
     private static final int level2Num = 10;
-    private static final int level3Num = 50;
+    private static final int level3Num = 30;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

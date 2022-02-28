@@ -52,8 +52,8 @@ class Star extends androidx.appcompat.widget.AppCompatImageView {
 
         setImageResource(drawable);
         constraintLayout.addView(this);
-        setX((Integer)(displayWidth / 2));
-        setY((Integer)(displayHeight / 2));
+        setX(displayWidth >> 1);
+        setY(displayHeight >> 1);
 
         directionSpeedX = randomIntNegativeSpan();
         directionSpeedY = randomIntNegativeSpan();

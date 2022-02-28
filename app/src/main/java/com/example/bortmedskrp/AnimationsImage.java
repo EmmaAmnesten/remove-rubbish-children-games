@@ -53,7 +53,7 @@ class AnimationsImage {
             }
         };
 
-        fishView.setBackgroundDrawable(customAnimation);
+        fishView.setBackground(customAnimation);
         customAnimation.setOneShot(true);
         customAnimation.start();
 
@@ -70,7 +70,7 @@ class AnimationsImage {
         ImageView finishImageView = new ImageView(saveTheOcean);
         finishImageView.setBackgroundResource(R.drawable.end_rainbow);
         saveTheOcean.constraintLayout.addView(finishImageView);
-        finishImageView.setY((Integer)(- (displayWidth / 2)));
+        finishImageView.setY((- (displayWidth >> 1)));
         finishImageView.setX(displayWidth);
 
         Animation animation1 = AnimationUtils.loadAnimation(saveTheOcean.getApplicationContext(), R.anim.animation_finish_rainbow);

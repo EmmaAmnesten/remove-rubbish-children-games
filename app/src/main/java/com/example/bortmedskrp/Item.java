@@ -65,10 +65,6 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         return isTrash;
     }
 
-    public int getSpeed(){
-        return speed;
-    }
-
     /**
      * Move item down in game.
      */

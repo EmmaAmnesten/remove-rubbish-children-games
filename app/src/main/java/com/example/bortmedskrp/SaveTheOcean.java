@@ -3,12 +3,10 @@ package com.example.bortmedskrp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -17,8 +15,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static android.content.ContentValues.TAG;
-
 
 public class SaveTheOcean extends AppCompatActivity {
 
@@ -26,7 +22,7 @@ public class SaveTheOcean extends AppCompatActivity {
     final static int maxSpanDelayItem = 2000;
     final static int displayDividerFishWidth = 3;
     final static int displayDividerItemWidth = 6;
-    static int goalPoints = 5;
+    static int goalPoints;
 
     MusicController musicController;
     AnimationsImage animationsImage;
@@ -53,9 +49,6 @@ public class SaveTheOcean extends AppCompatActivity {
     int itemWidthHeight;
 
     boolean ifGameFinish;
-
-
-
 
 
     @Override
@@ -231,8 +224,7 @@ public class SaveTheOcean extends AppCompatActivity {
     }
 
     private void goToMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
     }
 
     @Override
@@ -276,19 +268,9 @@ public class SaveTheOcean extends AppCompatActivity {
             i.moveItemDown();
         }
 
-
         countDownStartGame();
-//        //Start function to add more item to game.
-//        if (!ifGameFinish){
-//            if (!animationsImage.getCountDownStopped()) {
-//                //randomSpanTimeItem();
-//            }else{
-//                //countDownStartGame();
-//            }
-//        }
 
         musicController.startBackgroundOcean();
-
     }
 
     @Override
