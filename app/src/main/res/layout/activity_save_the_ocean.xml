@@ -13,10 +13,21 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewLevel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="40dp"
         android:text="@string/text_level"
-        style="@style/TextviewStyle"/>
+        style="@style/TextviewStyle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewNumLevel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
+        style="@style/TextviewStyle"
+        android:textSize="35sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,7 +37,7 @@
         style="@style/TextviewStyle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:visibility="invisible">
     </TextView>
 
@@ -86,7 +97,15 @@
         android:progressDrawable="@drawable/gradient_progressbar_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guidelineVert">
-
     </ProgressBar>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/lifeContainer"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="15dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

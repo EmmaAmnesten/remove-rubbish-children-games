@@ -22,6 +22,7 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
     SaveTheOcean saveTheOcean;
     int displayHeight;
     int gameLevel;
+    int gameNumber;
 
     String name;
     int drawable;
@@ -36,12 +37,13 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     public Item(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
-                int displayHeight, int displayWidth, int itemWidthHeight, int gameLevel) {
+                int displayHeight, int displayWidth, int itemWidthHeight, int gameLevel, int gameNumber) {
         super(context);
 
         saveTheOcean = (SaveTheOcean) context;
         this.displayHeight = displayHeight;
         this.gameLevel = gameLevel;
+        this.gameNumber = gameNumber;
 
         ItemsType.items items = itemsType.getItemByPosition(randomInt(itemsType.getItemsLength()));
         name = items.name();
@@ -98,6 +100,9 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
                     handler.postDelayed(this,25);
                 }else {
                     saveTheOcean.removeItemFromGame(item);
+                    if(gameNumber == 2 && item.getIsTrash()){
+                        saveTheOcean.removeLife();
+                    }
                     handler.removeCallbacks(this);
                 }
             }

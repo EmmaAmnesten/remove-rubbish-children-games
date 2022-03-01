@@ -2,9 +2,11 @@
     <string name="app_name">Rädda havet</string>
     <string name="game1_name">Rädda havet</string>
     <string name="game1_button">Samla %1$s st skräp</string>
-    <string name="game2_button">Sortera %1$s st skräp</string>
+    <string name="game2_button">Nå level %1$s</string>
+    <string name="game3_button">%1$s fisk liv</string>
 
-    <string name="text_level">Level %1$s</string>
+    <string name="text_level">Level</string>
+    <string name="text_points">Poäng</string>
     <string name="music_credit">Music: www.bensound.com</string>
 
     <string name="content_description_fish">Fisk</string>

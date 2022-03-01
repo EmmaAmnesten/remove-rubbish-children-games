@@ -7,16 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import static android.content.ContentValues.TAG;
 
 
 public class SaveTheOcean extends AppCompatActivity {
@@ -25,20 +23,27 @@ public class SaveTheOcean extends AppCompatActivity {
     final static int startMaxSpanDelayItem = 1500;
     final static int displayDividerFishWidth = 3;
     final static int displayDividerItemWidth = 6;
+    final static int displayDividerLifeWidth = 9;
+
+    static int gameNumber;
     static int goalPoints;
 
     MusicController musicController;
     AnimationsImage animationsImage;
     ItemsType itemsType;
+    ItemsType.gameType gameType;
 
-    ArrayList<Item> itemsInGame;
+    ArrayList<Item> itemsInGameList;
     ArrayList<Star> starList;
+    ArrayList<ImageView> lifeImageList;
 
     ConstraintLayout constraintLayout;
     TextView levelView;
+    TextView levelNumView;
     ImageView fishView;
     ImageView countDownView;
     ProgressBar progressBarPoints;
+    LinearLayout lifeContainer;
 
     Handler handlerGame;
     Handler handlerCounter;
@@ -52,6 +57,7 @@ public class SaveTheOcean extends AppCompatActivity {
     int displayWidth;
     int fishWidthHeight;
     int itemWidthHeight;
+    int lifeWidthHeight;
 
     boolean ifGameFinish;
 
@@ -61,19 +67,26 @@ public class SaveTheOcean extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_the_ocean);
 
-        goalPoints = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT_LEVEL"));
+        gameNumber = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT_LEVEL"));
 
         constraintLayout = findViewById(R.id.constraintLayout);
         levelView = findViewById(R.id.textViewLevel);
+        levelNumView = findViewById(R.id.textViewNumLevel);
         countDownView = findViewById(R.id.downCounterView);
         fishView = findViewById(R.id.fishView);
         progressBarPoints = findViewById(R.id.progressBarPoints);
+        lifeContainer = findViewById(R.id.lifeContainer);
+
 
         musicController = new MusicController(this);
         animationsImage = new AnimationsImage(fishView);
         itemsType = new ItemsType();
-        itemsInGame = new ArrayList<>();
+        itemsInGameList = new ArrayList<>();
         starList = new ArrayList<>();
+        lifeImageList = new ArrayList<>();
+
+        gameType = itemsType.getGameTypeByPosition(gameNumber);
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -84,7 +97,7 @@ public class SaveTheOcean extends AppCompatActivity {
         gamePoints = 0;
         gameLevel = 1;
         ifGameFinish = false;
-        itemsInGame.clear();
+        itemsInGameList.clear();
 
         setUpStartScreen();
     }
@@ -93,15 +106,38 @@ public class SaveTheOcean extends AppCompatActivity {
      * Sets up a start view .
      */
     private void setUpStartScreen(){
-        levelView.setText(getString(R.string.text_level, String.valueOf(gameLevel)));
-
         fishWidthHeight = displayWidth/displayDividerFishWidth;
         itemWidthHeight = displayWidth/displayDividerItemWidth;
+        lifeWidthHeight = displayWidth/displayDividerLifeWidth;
+
+        levelNumView.setText(String.valueOf(gameLevel));
+
+        if(gameNumber == 0){
+            goalPoints = gameType.gameGoalNumValue;
+            levelView.setVisibility(View.INVISIBLE);
+            levelNumView.setVisibility(View.INVISIBLE);
+            progressBarPoints.setMax(goalPoints);
+        }else if(gameNumber == 1){
+            //level starts at lev 1. 5 points between lev 1 and lev 2. then 10 points for all next coming levels.
+            goalPoints = 5 + ((gameType.gameGoalNumValue - 2) * 10);
+            progressBarPoints.setMax(goalPoints);
+        }else{
+            levelView.setText(R.string.text_points);
+            levelNumView.setText(String.valueOf(gamePoints));
+            progressBarPoints.setVisibility(View.INVISIBLE);
+            for(int i = 0; i < gameType.gameGoalNumValue; i++){
+                ImageView ivLife = new ImageView(this);
+                ivLife.setImageResource(R.drawable.item_animal_fish_2);
+                lifeImageList.add(ivLife);
+            }
+            upDateLife();
+        }
+
         animationsImage.setStartFish();
         fishView.getLayoutParams().width = fishWidthHeight;
         fishView.getLayoutParams().height = fishWidthHeight;
 
-        progressBarPoints.setMax(goalPoints);
+
         progressBarPoints.setProgress(0);
         progressBarPoints.setScaleY(4f);
 
@@ -159,8 +195,9 @@ public class SaveTheOcean extends AppCompatActivity {
      * Adds new Item to game.
      */
     private void addNewItem(){
-        Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth, itemWidthHeight, gameLevel);
-        itemsInGame.add(item);
+        Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth,
+                itemWidthHeight, gameLevel, gameNumber);
+        itemsInGameList.add(item);
         item.setOnClickListener(v -> itemClicked(item));
         item.moveItemDown();
     }
@@ -185,26 +222,57 @@ public class SaveTheOcean extends AppCompatActivity {
             gamePoints = gamePoints - 1;
             progressBarPoints.setProgress(gamePoints);
         }
-        if(gamePoints == goalPoints && !ifGameFinish){
+        if(gameNumber == 2 && !item.getIsTrash() && !ifGameFinish){
+            removeLife();
+        }
+
+        if(gameNumber != 2 && gamePoints == goalPoints && !ifGameFinish){
+            ifGameFinish = true;
+            gameOver();
+        }
+        if(gameNumber == 2 && lifeImageList.isEmpty() && !ifGameFinish){
             ifGameFinish = true;
             gameOver();
         }
 
-        if(gamePoints == 5 || gamePoints % 10 == 0){
-            if(gamePoints == 5){
-                gameLevel = 2;
-            }else{
-                gameLevel = (gamePoints / 10) + 1;
+        if(gameNumber != 2) {
+            if (gamePoints == 5 || gamePoints % 10 == 0) {
+                if (gamePoints == 5) {
+                    gameLevel = 2;
+                } else {
+                    gameLevel = (gamePoints / 10) + 1;
+                }
+                levelNumView.setText(String.valueOf(gameLevel));
             }
-            levelView.setText(getString(R.string.text_level, String.valueOf(gameLevel)));
+        }else{
+            levelNumView.setText(String.valueOf(gamePoints));
         }
         removeItemFromGame(item);
     }
 
     public void removeItemFromGame(Item item){
         constraintLayout.removeView(item);
-        itemsInGame.remove(item);
+        itemsInGameList.remove(item);
         item.removeHandlerItem();
+    }
+
+    public void removeLife(){
+        if(!lifeImageList.isEmpty()) {
+            lifeImageList.remove(0);
+            upDateLife();
+        }
+    }
+
+    public void upDateLife(){
+        lifeContainer.removeAllViews();
+        for(ImageView i : lifeImageList) {
+            lifeContainer.addView(i);
+            i.getLayoutParams().width = lifeWidthHeight;
+            i.getLayoutParams().height = lifeWidthHeight;
+        }
+        if(lifeImageList.isEmpty()){
+            gameOver();
+        }
     }
 
     private void gameOver(){
@@ -261,7 +329,7 @@ public class SaveTheOcean extends AppCompatActivity {
             handlerCounter.removeCallbacks(runnableCounter);
         }
 
-        for (Item i : itemsInGame){
+        for (Item i : itemsInGameList){
             i.removeHandlerItem();
         }
 
@@ -287,7 +355,7 @@ public class SaveTheOcean extends AppCompatActivity {
         super.onResume();
 
         //Adds movement on Item in arraylist itemsInGame.
-        for (Item i : itemsInGame) {
+        for (Item i : itemsInGameList) {
             i.moveItemDown();
         }
 
