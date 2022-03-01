@@ -12,7 +12,6 @@ class MusicController {
 
     Context context;
     MediaPlayer backgroundMusicGame;
-    MediaPlayer soundItem;
     MediaPlayer soundApplause;
     int backgroundCurrentPosition;
 
@@ -47,15 +46,15 @@ class MusicController {
     }
 
     public void soundItemClick(Item item){
-        if (soundItem != null && soundItem.isPlaying()){
-            soundItem.release();
-        }
+        MediaPlayer soundItem;
+
         if(item.getIsTrash()){
             soundItem = MediaPlayer.create(context, R.raw.sound_item_trash_onclick_pling);
         }else{
             soundItem = MediaPlayer.create(context, R.raw.sound_item_animal_onclick_plop);
         }
 
+        soundItem.setOnCompletionListener(mp -> soundItem.release());
         soundItem.start();
     }
 

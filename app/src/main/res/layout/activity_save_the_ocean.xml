@@ -11,6 +11,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/textViewLevel"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="5dp"
+        android:text="@string/text_level"
+        style="@style/TextviewStyle"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/textviewCredit"
         android:text="@string/music_credit"
         style="@style/TextviewStyle"

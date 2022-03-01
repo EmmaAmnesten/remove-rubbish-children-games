@@ -2,8 +2,10 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.os.Handler;
+
 import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.Random;
+
 
 
 /**
@@ -13,16 +15,18 @@ import java.util.Random;
 
 class Item extends androidx.appcompat.widget.AppCompatImageView {
 
-    private static final int miniSpeed = 6;
-    private static final int maxSpeed = 15;
+    final static int startMiniSpeed = 6;
+    final static int startMaxSpeed = 15;
+
+
+    SaveTheOcean saveTheOcean;
+    int displayHeight;
+    int gameLevel;
 
     String name;
     int drawable;
     Boolean isTrash;
     int speed;
-
-    SaveTheOcean saveTheOcean;
-    int displayHeight;
 
     Handler handler;
     Runnable runnable;
@@ -32,13 +36,14 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
     }
 
     public Item(Context context, ItemsType itemsType, ConstraintLayout constraintLayout,
-                int displayHeight, int displayWidth, int itemWidthHeight) {
+                int displayHeight, int displayWidth, int itemWidthHeight, int gameLevel) {
         super(context);
 
         saveTheOcean = (SaveTheOcean) context;
         this.displayHeight = displayHeight;
+        this.gameLevel = gameLevel;
 
-        ItemsType.items items = itemsType.getItemByPosition(randomInt(0, itemsType.getItemsLength()));
+        ItemsType.items items = itemsType.getItemByPosition(randomInt(itemsType.getItemsLength()));
         name = items.name();
         drawable = items.drawableValue;
         isTrash = items.ifTrashValue;
@@ -47,14 +52,24 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         constraintLayout.addView(this);
         getLayoutParams().width = itemWidthHeight;
         getLayoutParams().height = itemWidthHeight;
-        setX(randomInt(0, displayWidth - itemWidthHeight));
+        setX(randomInt(displayWidth - itemWidthHeight));
         setY(-itemWidthHeight);
 
-        speed = randomInt(miniSpeed, maxSpeed);
+        speed = randomIntSpeed();
     }
 
-    private int randomInt(int fromInt, int toInt){
-        return new Random().nextInt(toInt - fromInt) + fromInt;
+    private int randomInt(int toInt){
+        return new Random().nextInt(toInt);
+    }
+
+    private int randomIntSpeed(){
+        int speed = new Random().nextInt(startMaxSpeed - startMiniSpeed) + startMiniSpeed;
+        if(gameLevel < 10) {
+            speed = speed + gameLevel;
+        }else{
+            speed = speed + 10;
+        }
+        return speed;
     }
 
     public String getName() {

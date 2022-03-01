@@ -4,10 +4,12 @@
     <string name="game1_button">Samla %1$s st skräp</string>
     <string name="game2_button">Sortera %1$s st skräp</string>
 
+    <string name="text_level">Level %1$s</string>
     <string name="music_credit">Music: www.bensound.com</string>
 
     <string name="content_description_fish">Fisk</string>
     <string name="content_description_water">Water</string>
     <string name="content_description_count_down">Räknar ner. 3–2–1-start</string>
     <string name="content_description_trash_group">En samling med skräp</string>
+
 </resources>

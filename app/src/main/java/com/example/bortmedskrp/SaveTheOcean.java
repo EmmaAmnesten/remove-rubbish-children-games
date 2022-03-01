@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static android.content.ContentValues.TAG;
+
 
 public class SaveTheOcean extends AppCompatActivity {
 
-    final static int minSpanDelayItem = 500;
-    final static int maxSpanDelayItem = 2000;
+    final static int startMinSpanDelayItem = 500;
+    final static int startMaxSpanDelayItem = 1500;
     final static int displayDividerFishWidth = 3;
     final static int displayDividerItemWidth = 6;
     static int goalPoints;
@@ -32,6 +35,7 @@ public class SaveTheOcean extends AppCompatActivity {
     ArrayList<Star> starList;
 
     ConstraintLayout constraintLayout;
+    TextView levelView;
     ImageView fishView;
     ImageView countDownView;
     ProgressBar progressBarPoints;
@@ -42,7 +46,8 @@ public class SaveTheOcean extends AppCompatActivity {
     Runnable runnableCounter;
 
     int counterCountDown;
-    int points;
+    int gamePoints;
+    int gameLevel;
     int displayHeight;
     int displayWidth;
     int fishWidthHeight;
@@ -59,6 +64,7 @@ public class SaveTheOcean extends AppCompatActivity {
         goalPoints = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT_LEVEL"));
 
         constraintLayout = findViewById(R.id.constraintLayout);
+        levelView = findViewById(R.id.textViewLevel);
         countDownView = findViewById(R.id.downCounterView);
         fishView = findViewById(R.id.fishView);
         progressBarPoints = findViewById(R.id.progressBarPoints);
@@ -75,7 +81,8 @@ public class SaveTheOcean extends AppCompatActivity {
         displayWidth = displayMetrics.widthPixels;
 
         counterCountDown = 3;
-        points = 0;
+        gamePoints = 0;
+        gameLevel = 1;
         ifGameFinish = false;
         itemsInGame.clear();
 
@@ -86,6 +93,8 @@ public class SaveTheOcean extends AppCompatActivity {
      * Sets up a start view .
      */
     private void setUpStartScreen(){
+        levelView.setText(getString(R.string.text_level, String.valueOf(gameLevel)));
+
         fishWidthHeight = displayWidth/displayDividerFishWidth;
         itemWidthHeight = displayWidth/displayDividerItemWidth;
         animationsImage.setStartFish();
@@ -140,7 +149,7 @@ public class SaveTheOcean extends AppCompatActivity {
             @Override
             public void run() {
                 addNewItem();
-                handlerGame.postDelayed(this, randomInt());
+                handlerGame.postDelayed(this, randomIntSpanTime());
             }
         };
         handlerGame.post(runnableGame);
@@ -150,7 +159,7 @@ public class SaveTheOcean extends AppCompatActivity {
      * Adds new Item to game.
      */
     private void addNewItem(){
-        Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth, itemWidthHeight);
+        Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth, itemWidthHeight, gameLevel);
         itemsInGame.add(item);
         item.setOnClickListener(v -> itemClicked(item));
         item.moveItemDown();
@@ -170,15 +179,24 @@ public class SaveTheOcean extends AppCompatActivity {
         musicController.soundItemClick(item);
 
         if(item.getIsTrash() && !ifGameFinish){
-            points = points + 1;
-            progressBarPoints.setProgress(points);
-        }else if(!item.getIsTrash() && points > 0 && !ifGameFinish){
-            points = points - 1;
-            progressBarPoints.setProgress(points);
+            gamePoints = gamePoints + 1;
+            progressBarPoints.setProgress(gamePoints);
+        }else if(!item.getIsTrash() && gamePoints > 0 && !ifGameFinish){
+            gamePoints = gamePoints - 1;
+            progressBarPoints.setProgress(gamePoints);
         }
-        if(points == goalPoints && !ifGameFinish){
+        if(gamePoints == goalPoints && !ifGameFinish){
             ifGameFinish = true;
             gameOver();
+        }
+
+        if(gamePoints == 5 || gamePoints % 10 == 0){
+            if(gamePoints == 5){
+                gameLevel = 2;
+            }else{
+                gameLevel = (gamePoints / 10) + 1;
+            }
+            levelView.setText(getString(R.string.text_level, String.valueOf(gameLevel)));
         }
         removeItemFromGame(item);
     }
@@ -219,8 +237,13 @@ public class SaveTheOcean extends AppCompatActivity {
         }
     }
 
-    private int randomInt(){
-        return new Random().nextInt(maxSpanDelayItem - minSpanDelayItem) + minSpanDelayItem;
+    private int randomIntSpanTime(){
+        int time = new Random().nextInt(startMaxSpanDelayItem - startMinSpanDelayItem) + startMinSpanDelayItem;
+        time = time - (gameLevel * 4);
+        if(time < 100){
+            time = 100;
+        }
+        return time;
     }
 
     private void goToMainActivity(){
