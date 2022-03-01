@@ -38,19 +38,19 @@ public class SaveTheOcean extends AppCompatActivity {
     ArrayList<ImageView> lifeImageList;
 
     ConstraintLayout constraintLayout;
-    TextView levelView;
-    TextView levelNumView;
+    TextView textViewCounterType;
+    TextView textViewNumCounter;
     ImageView fishView;
     ImageView countDownView;
     ProgressBar progressBarPoints;
     LinearLayout lifeContainer;
 
     Handler handlerGame;
-    Handler handlerCounter;
+    //Handler handlerCounter;
     Runnable runnableGame;
-    Runnable runnableCounter;
+    //Runnable runnableCounter;
 
-    int counterCountDown;
+    //int counterCountDown;
     int gamePoints;
     int gameLevel;
     int displayHeight;
@@ -70,8 +70,8 @@ public class SaveTheOcean extends AppCompatActivity {
         gameNumber = Integer.parseInt(getIntent().getStringExtra("EXTRA_TEXT_LEVEL"));
 
         constraintLayout = findViewById(R.id.constraintLayout);
-        levelView = findViewById(R.id.textViewLevel);
-        levelNumView = findViewById(R.id.textViewNumLevel);
+        textViewCounterType = findViewById(R.id.textViewCounterType);
+        textViewNumCounter = findViewById(R.id.textViewNumCounter);
         countDownView = findViewById(R.id.downCounterView);
         fishView = findViewById(R.id.fishView);
         progressBarPoints = findViewById(R.id.progressBarPoints);
@@ -93,7 +93,6 @@ public class SaveTheOcean extends AppCompatActivity {
         displayHeight = displayMetrics.heightPixels;
         displayWidth = displayMetrics.widthPixels;
 
-        counterCountDown = 3;
         gamePoints = 0;
         gameLevel = 1;
         ifGameFinish = false;
@@ -110,20 +109,21 @@ public class SaveTheOcean extends AppCompatActivity {
         itemWidthHeight = displayWidth/displayDividerItemWidth;
         lifeWidthHeight = displayWidth/displayDividerLifeWidth;
 
-        levelNumView.setText(String.valueOf(gameLevel));
 
         if(gameNumber == 0){
+            textViewCounterType.setVisibility(View.INVISIBLE);
+            textViewNumCounter.setVisibility(View.INVISIBLE);
             goalPoints = gameType.gameGoalNumValue;
-            levelView.setVisibility(View.INVISIBLE);
-            levelNumView.setVisibility(View.INVISIBLE);
             progressBarPoints.setMax(goalPoints);
         }else if(gameNumber == 1){
+            textViewCounterType.setText(R.string.text_level);
+            textViewNumCounter.setText(String.valueOf(gameLevel));
             //level starts at lev 1. 5 points between lev 1 and lev 2. then 10 points for all next coming levels.
             goalPoints = 5 + ((gameType.gameGoalNumValue - 2) * 10);
             progressBarPoints.setMax(goalPoints);
         }else{
-            levelView.setText(R.string.text_points);
-            levelNumView.setText(String.valueOf(gamePoints));
+            textViewCounterType.setText(R.string.text_points);
+            textViewNumCounter.setText(String.valueOf(gamePoints));
             progressBarPoints.setVisibility(View.INVISIBLE);
             for(int i = 0; i < gameType.gameGoalNumValue; i++){
                 ImageView ivLife = new ImageView(this);
@@ -133,47 +133,19 @@ public class SaveTheOcean extends AppCompatActivity {
             upDateLife();
         }
 
+        if(gameNumber != 2) {
+            progressBarPoints.setProgress(0);
+            progressBarPoints.setScaleY(4f);
+        }
+
         animationsImage.setStartFish();
         fishView.getLayoutParams().width = fishWidthHeight;
         fishView.getLayoutParams().height = fishWidthHeight;
 
-
-        progressBarPoints.setProgress(0);
-        progressBarPoints.setScaleY(4f);
-
         musicController.startBackgroundOcean();
-        //countDownStartGame();
+        //animationImage.countDownStartGame();
     }
 
-    /**
-     * Start a animation and then the game starts. Starts from onResume.
-     * When animations is done method randomSpanTimeItem starts from class AnimationsImage.
-     */
-    public void countDownStartGame(){
-
-        handlerCounter = new Handler();
-        runnableCounter = new Runnable() {
-            @Override
-            public void run() {
-                if(counterCountDown == 3){
-                    countDownView.setImageResource(R.drawable.start_count_down_3);
-                }else if(counterCountDown == 2){
-                    countDownView.setImageResource(R.drawable.start_count_down_2);
-                }else if(counterCountDown == 1){
-                    countDownView.setImageResource(R.drawable.start_count_down_1);
-                }else if(counterCountDown == 0){
-                    countDownView.setImageResource(R.drawable.start_count_down_start);
-                }else{
-                    countDownView.setVisibility(View.INVISIBLE);
-                    randomSpanTimeItem();
-                    return;
-                }
-                counterCountDown --;
-                handlerCounter.postDelayed(this, 1000);
-            }
-        };
-        handlerCounter.post(runnableCounter);
-    }
 
     /**
      * This method starts when animation countDownStartGame is finish. Starts from class AnimationsImage.
@@ -217,35 +189,43 @@ public class SaveTheOcean extends AppCompatActivity {
 
         if(item.getIsTrash() && !ifGameFinish){
             gamePoints = gamePoints + 1;
-            progressBarPoints.setProgress(gamePoints);
-        }else if(!item.getIsTrash() && gamePoints > 0 && !ifGameFinish){
-            gamePoints = gamePoints - 1;
-            progressBarPoints.setProgress(gamePoints);
-        }
-        if(gameNumber == 2 && !item.getIsTrash() && !ifGameFinish){
-            removeLife();
         }
 
-        if(gameNumber != 2 && gamePoints == goalPoints && !ifGameFinish){
-            ifGameFinish = true;
-            gameOver();
-        }
-        if(gameNumber == 2 && lifeImageList.isEmpty() && !ifGameFinish){
-            ifGameFinish = true;
-            gameOver();
-        }
-
-        if(gameNumber != 2) {
-            if (gamePoints == 5 || gamePoints % 10 == 0) {
-                if (gamePoints == 5) {
-                    gameLevel = 2;
-                } else {
-                    gameLevel = (gamePoints / 10) + 1;
-                }
-                levelNumView.setText(String.valueOf(gameLevel));
+        if((gameNumber == 0 || gameNumber == 1) && !ifGameFinish){
+            if(!item.getIsTrash() ){
+                gamePoints = gamePoints - 1;
             }
-        }else{
-            levelNumView.setText(String.valueOf(gamePoints));
+
+            if(gamePoints > 0){
+                progressBarPoints.setProgress(gamePoints);
+            }
+
+            if(gameNumber == 1){
+                if (gamePoints == 5 || gamePoints % 10 == 0) {
+                    if (gamePoints == 5) {
+                        gameLevel = 2;
+                    } else {
+                        gameLevel = (gamePoints / 10) + 1;
+                    }
+                    textViewNumCounter.setText(String.valueOf(gameLevel));
+                }
+            }
+
+            if(gamePoints == goalPoints){
+                ifGameFinish = true;
+                gameOver();
+            }
+        }else if(gameNumber == 2 && !ifGameFinish){
+            textViewNumCounter.setText(String.valueOf(gamePoints));
+
+            if(!item.getIsTrash() ){
+                removeLife();
+            }
+
+            if(lifeImageList.isEmpty()){
+                ifGameFinish = true;
+                gameOver();
+            }
         }
         removeItemFromGame(item);
     }
@@ -314,6 +294,7 @@ public class SaveTheOcean extends AppCompatActivity {
         return time;
     }
 
+    // TODO: 2022-03-01 fix bug on this methode. 
     private void goToMainActivity(){
         super.onBackPressed();
     }
@@ -325,8 +306,8 @@ public class SaveTheOcean extends AppCompatActivity {
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
         }
-        if(handlerCounter != null){
-            handlerCounter.removeCallbacks(runnableCounter);
+        if(animationsImage.handlerCounter != null){
+            animationsImage.handlerCounter.removeCallbacks(animationsImage.runnableCounter);
         }
 
         for (Item i : itemsInGameList){
@@ -359,14 +340,9 @@ public class SaveTheOcean extends AppCompatActivity {
             i.moveItemDown();
         }
 
-        countDownStartGame();
+        animationsImage.countDownStartGame(this, countDownView);
 
         musicController.startBackgroundOcean();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
 }
