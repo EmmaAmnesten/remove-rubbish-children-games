@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="18dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="10dp"
         android:text="@string/text_level"
         style="@style/TextviewStyle" />
 
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewNumCounter"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/textViewCounterType"
+        android:layout_marginEnd="3dp"
         style="@style/TextviewStyle"
         android:textSize="35sp"/>
 

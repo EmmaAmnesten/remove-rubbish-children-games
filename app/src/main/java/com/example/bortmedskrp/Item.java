@@ -2,6 +2,7 @@ package com.example.bortmedskrp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.Random;
@@ -10,14 +11,14 @@ import java.util.Random;
 
 /**
  * Created by  on 2021-10-15.
- * Object in game. Random item type and add to game.
+ * Object in game.
+ * clickable, random if trash, moving down on screen, increases speed.
  */
 
 class Item extends androidx.appcompat.widget.AppCompatImageView {
 
     final static int startMiniSpeed = 6;
     final static int startMaxSpeed = 15;
-
 
     SaveTheOcean saveTheOcean;
     int displayHeight;
@@ -57,21 +58,11 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         setX(randomInt(displayWidth - itemWidthHeight));
         setY(-itemWidthHeight);
 
-        speed = randomIntSpeed();
+        speed = calculateSpeed();
     }
 
     private int randomInt(int toInt){
         return new Random().nextInt(toInt);
-    }
-
-    private int randomIntSpeed(){
-        int speed = new Random().nextInt(startMaxSpeed - startMiniSpeed) + startMiniSpeed;
-        if(gameLevel < 10) {
-            speed = speed + gameLevel;
-        }else{
-            speed = speed + 10;
-        }
-        return speed;
     }
 
     public String getName() {
@@ -109,6 +100,18 @@ class Item extends androidx.appcompat.widget.AppCompatImageView {
         };
 
         handler.post(runnable);
+    }
+
+    /**
+     *Calculate Speed for item to move down. Increases speed whit game level number.
+     * @return int speed
+     */
+    private int calculateSpeed(){
+        int speed = new Random().nextInt(startMaxSpeed - startMiniSpeed) + startMiniSpeed;
+        speed = speed + gameLevel;
+        Log.d("Tag","calculateSpeed: " + speed);
+
+        return speed;
     }
 
     public void removeHandlerItem(){

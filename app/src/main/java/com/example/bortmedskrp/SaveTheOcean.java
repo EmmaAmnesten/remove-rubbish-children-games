@@ -16,22 +16,31 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Save the ocean game.
+ * Three types of games, variable gameNumber int 0,1 ore 2 is represents the game type.
+ * Game types fetch from stringExtra from MainActivity.
+ * (See game types descriptions in ItemTypes)
+ */
 
 public class SaveTheOcean extends AppCompatActivity {
 
-    final static int startMinSpanDelayItem = 500;
-    final static int startMaxSpanDelayItem = 1500;
+    final static int minDelayTimeItem = 500;
+    final static int maxDelayTimeItem = 1500;
     final static int displayDividerFishWidth = 3;
     final static int displayDividerItemWidth = 6;
     final static int displayDividerLifeWidth = 9;
+    final static int minSpanTime = 350;
+    final static int delaySecondsGoToMain = 6000;
 
     static int gameNumber;
     static int goalPoints;
 
     MusicController musicController;
     AnimationsImage animationsImage;
+    GameTypes gameTypes;
+    GameTypes.gameType gameType;
     ItemsType itemsType;
-    ItemsType.gameType gameType;
 
     ArrayList<Item> itemsInGameList;
     ArrayList<Star> starList;
@@ -46,11 +55,8 @@ public class SaveTheOcean extends AppCompatActivity {
     LinearLayout lifeContainer;
 
     Handler handlerGame;
-    //Handler handlerCounter;
     Runnable runnableGame;
-    //Runnable runnableCounter;
 
-    //int counterCountDown;
     int gamePoints;
     int gameLevel;
     int displayHeight;
@@ -58,6 +64,7 @@ public class SaveTheOcean extends AppCompatActivity {
     int fishWidthHeight;
     int itemWidthHeight;
     int lifeWidthHeight;
+    int spanTimeDecrease;
 
     boolean ifGameFinish;
 
@@ -80,13 +87,13 @@ public class SaveTheOcean extends AppCompatActivity {
 
         musicController = new MusicController(this);
         animationsImage = new AnimationsImage(fishView);
+        gameTypes = new GameTypes();
         itemsType = new ItemsType();
         itemsInGameList = new ArrayList<>();
         starList = new ArrayList<>();
         lifeImageList = new ArrayList<>();
 
-        gameType = itemsType.getGameTypeByPosition(gameNumber);
-
+        gameType = gameTypes.getGameTypeByPosition(gameNumber);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -97,6 +104,7 @@ public class SaveTheOcean extends AppCompatActivity {
         gameLevel = 1;
         ifGameFinish = false;
         itemsInGameList.clear();
+        spanTimeDecrease = 0;
 
         setUpStartScreen();
     }
@@ -108,7 +116,6 @@ public class SaveTheOcean extends AppCompatActivity {
         fishWidthHeight = displayWidth/displayDividerFishWidth;
         itemWidthHeight = displayWidth/displayDividerItemWidth;
         lifeWidthHeight = displayWidth/displayDividerLifeWidth;
-
 
         if(gameNumber == 0){
             textViewCounterType.setVisibility(View.INVISIBLE);
@@ -143,13 +150,19 @@ public class SaveTheOcean extends AppCompatActivity {
         fishView.getLayoutParams().height = fishWidthHeight;
 
         musicController.startBackgroundOcean();
-        //animationImage.countDownStartGame();
     }
 
+    private void startGame(){
+        if(animationsImage.counterCountDown > 0){
+            animationsImage.countDownStartGame(this, countDownView);
+        }else {
+            randomSpanTimeItem();
+        }
+    }
 
     /**
      * This method starts when animation countDownStartGame is finish. Starts from class AnimationsImage.
-     * Runnable with random delay to add new Item.
+     * Runnable with random delay to add new Item to game.
      */
     public void randomSpanTimeItem() {
         handlerGame = new Handler();
@@ -157,7 +170,7 @@ public class SaveTheOcean extends AppCompatActivity {
             @Override
             public void run() {
                 addNewItem();
-                handlerGame.postDelayed(this, randomIntSpanTime());
+                handlerGame.postDelayed(this, randomIntSpanTime() );
             }
         };
         handlerGame.post(runnableGame);
@@ -169,6 +182,7 @@ public class SaveTheOcean extends AppCompatActivity {
     private void addNewItem(){
         Item item = new Item(this, itemsType, constraintLayout, displayHeight, displayWidth,
                 itemWidthHeight, gameLevel, gameNumber);
+
         itemsInGameList.add(item);
         item.setOnClickListener(v -> itemClicked(item));
         item.moveItemDown();
@@ -189,6 +203,14 @@ public class SaveTheOcean extends AppCompatActivity {
 
         if(item.getIsTrash() && !ifGameFinish){
             gamePoints = gamePoints + 1;
+
+            if (gamePoints == 5 || gamePoints % 10 == 0) {
+                if (gamePoints == 5) {
+                    gameLevel = 2;
+                } else {
+                    gameLevel = (gamePoints / 10) + 1;
+                }
+            }
         }
 
         if((gameNumber == 0 || gameNumber == 1) && !ifGameFinish){
@@ -201,14 +223,7 @@ public class SaveTheOcean extends AppCompatActivity {
             }
 
             if(gameNumber == 1){
-                if (gamePoints == 5 || gamePoints % 10 == 0) {
-                    if (gamePoints == 5) {
-                        gameLevel = 2;
-                    } else {
-                        gameLevel = (gamePoints / 10) + 1;
-                    }
-                    textViewNumCounter.setText(String.valueOf(gameLevel));
-                }
+                textViewNumCounter.setText(String.valueOf(gameLevel));
             }
 
             if(gamePoints == goalPoints){
@@ -220,11 +235,6 @@ public class SaveTheOcean extends AppCompatActivity {
 
             if(!item.getIsTrash() ){
                 removeLife();
-            }
-
-            if(lifeImageList.isEmpty()){
-                ifGameFinish = true;
-                gameOver();
             }
         }
         removeItemFromGame(item);
@@ -245,19 +255,23 @@ public class SaveTheOcean extends AppCompatActivity {
 
     public void upDateLife(){
         lifeContainer.removeAllViews();
-        for(ImageView i : lifeImageList) {
-            lifeContainer.addView(i);
-            i.getLayoutParams().width = lifeWidthHeight;
-            i.getLayoutParams().height = lifeWidthHeight;
-        }
         if(lifeImageList.isEmpty()){
             gameOver();
+        }else {
+            for(ImageView i : lifeImageList) {
+                lifeContainer.addView(i);
+                i.getLayoutParams().width = lifeWidthHeight;
+                i.getLayoutParams().height = lifeWidthHeight;
+            }
         }
     }
 
+    // TODO: 2022-03-10 if gameType num 1 (second game) level should be 10 when game over. level is 9 
     private void gameOver(){
         animationsImage.finishRainbow(this, displayWidth);
         musicController.startFinishApplause();
+        textViewCounterType.bringToFront();
+        textViewNumCounter.bringToFront();
         TextView musicCredit = findViewById(R.id.textviewCredit);
         musicCredit.setVisibility(View.VISIBLE);
         for(int i = 0; i < 50; i++){
@@ -267,6 +281,9 @@ public class SaveTheOcean extends AppCompatActivity {
         if(handlerGame != null){
             handlerGame.removeCallbacks(runnableGame);
         }
+
+        //Waits some seconds (delaySecondsGoToMain) before go back to MainActivity.
+        (new Handler()).postDelayed(this::goToMainActivity, delaySecondsGoToMain);
     }
 
     private void addStar() {
@@ -279,22 +296,19 @@ public class SaveTheOcean extends AppCompatActivity {
         constraintLayout.removeView(star);
         starList.remove(star);
         star.removeHandlerStar();
-
-        if(starList.size() < 1){
-            goToMainActivity();
-        }
     }
 
     private int randomIntSpanTime(){
-        int time = new Random().nextInt(startMaxSpanDelayItem - startMinSpanDelayItem) + startMinSpanDelayItem;
-        time = time - (gameLevel * 4);
-        if(time < 100){
-            time = 100;
+        spanTimeDecrease = gameLevel * 5;
+        int spanTime = new Random().nextInt(maxDelayTimeItem - minDelayTimeItem) + minDelayTimeItem;
+        spanTime = spanTime - (spanTimeDecrease);
+        if(spanTime < minSpanTime){
+            spanTime = minSpanTime;
         }
-        return time;
+
+        return spanTime;
     }
 
-    // TODO: 2022-03-01 fix bug on this methode. 
     private void goToMainActivity(){
         super.onBackPressed();
     }
@@ -340,7 +354,7 @@ public class SaveTheOcean extends AppCompatActivity {
             i.moveItemDown();
         }
 
-        animationsImage.countDownStartGame(this, countDownView);
+        startGame();
 
         musicController.startBackgroundOcean();
     }

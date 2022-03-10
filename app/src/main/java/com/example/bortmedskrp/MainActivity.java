@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+/**
+ * Buttons for various game types.
+ */
+
+// TODO: 2022-03-10 add image on buttons, so children who can not read see differences on buttons
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,18 +17,18 @@ public class MainActivity extends AppCompatActivity {
     private static final int game2Num = 1;
     private static final int game3Num = 2;
 
-    ItemsType itemsType;
+    GameTypes gameTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        itemsType = new ItemsType();
+        gameTypes = new GameTypes();
 
-        ItemsType.gameType gameType1 = itemsType.getGameTypeByPosition(game1Num);
-        ItemsType.gameType gameType2 = itemsType.getGameTypeByPosition(game2Num);
-        ItemsType.gameType gameType3 = itemsType.getGameTypeByPosition(game3Num);
+        GameTypes.gameType gameType1 = gameTypes.getGameTypeByPosition(game1Num);
+        GameTypes.gameType gameType2 = gameTypes.getGameTypeByPosition(game2Num);
+        GameTypes.gameType gameType3 = gameTypes.getGameTypeByPosition(game3Num);
 
         Button buttonGameSaveTheOceanLevel1 = findViewById(R.id.button_level1);
         Button buttonGameSaveTheOceanLevel2 = findViewById(R.id.button_level2);

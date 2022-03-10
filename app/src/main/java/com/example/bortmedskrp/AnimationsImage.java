@@ -23,7 +23,7 @@ class AnimationsImage {
 
     public Handler handlerCounter;
     public Runnable runnableCounter;
-    int counterCountDown;
+    public int counterCountDown;
 
 
     public AnimationsImage(ImageView fishView){
