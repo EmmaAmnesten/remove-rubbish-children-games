@@ -125,9 +125,9 @@ public class SaveTheOcean extends AppCompatActivity {
         }else if(gameNumber == 1){
             textViewCounterType.setText(R.string.text_level);
             textViewNumCounter.setText(String.valueOf(gameLevel));
-            //level starts at lev 1. 5 points between lev 1 and lev 2. then 10 points for all next coming levels.
-            goalPoints = 5 + ((gameType.gameGoalNumValue - 2) * 10);
-            progressBarPoints.setMax(goalPoints);
+            goalPoints = gameType.gameGoalNumValue;
+            //count how many points are needed to reach level 10 to. Level starts at lev 1. 10 points for each levels.
+            progressBarPoints.setMax((gameType.gameGoalNumValue - 2) * 10);
         }else{
             textViewCounterType.setText(R.string.text_points);
             textViewNumCounter.setText(String.valueOf(gamePoints));
@@ -204,12 +204,8 @@ public class SaveTheOcean extends AppCompatActivity {
         if(item.getIsTrash() && !ifGameFinish){
             gamePoints = gamePoints + 1;
 
-            if (gamePoints == 5 || gamePoints % 10 == 0) {
-                if (gamePoints == 5) {
-                    gameLevel = 2;
-                } else {
-                    gameLevel = (gamePoints / 10) + 1;
-                }
+            if (gamePoints % 10 == 0) {
+                gameLevel = (gamePoints / 10) + 1;
             }
         }
 
@@ -226,9 +222,16 @@ public class SaveTheOcean extends AppCompatActivity {
                 textViewNumCounter.setText(String.valueOf(gameLevel));
             }
 
-            if(gamePoints == goalPoints){
-                ifGameFinish = true;
-                gameOver();
+            if(gameNumber == 0){
+                if(gamePoints == goalPoints){
+                    ifGameFinish = true;
+                    gameOver();
+                }
+            }else{
+                if(gameLevel == goalPoints){
+                    ifGameFinish = true;
+                    gameOver();
+                }
             }
         }else if(gameNumber == 2 && !ifGameFinish){
             textViewNumCounter.setText(String.valueOf(gamePoints));

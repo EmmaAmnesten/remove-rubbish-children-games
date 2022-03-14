@@ -12,5 +12,10 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">@color/blue_dark</item>
         <!-- Customize your theme here. -->
+
+    </style>
+
+    <style name="windowNoStatusBar" parent="Theme.BortMedSkrap">
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>
