@@ -3,12 +3,12 @@
     <color name="blue_light">#EBF2F3</color>
     <color name="blue_middle">#7EA1B1</color>
     <color name="blue_dark">#536E7A</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green_good_progress">#B8E37C</color>
     <color name="text_dark">#494324</color>
     <color name="text_white">#FFFFFFFF</color>
-    <color name="background_button">#DACA46</color>
+    <color name="background_button">@color/blue_dark</color>
+    <color name="background_button_yellow_b">#DACA46</color>
+    <color name="background_button_yellow">#DCCF67</color>
 </resources>

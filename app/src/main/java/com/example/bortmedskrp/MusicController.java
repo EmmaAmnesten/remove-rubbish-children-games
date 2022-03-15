@@ -58,6 +58,10 @@ class MusicController {
         soundItem.start();
     }
 
-    // TODO: 2022-03-01 sound effects life lost.
+    public void soundLifeLost(){
+        MediaPlayer soundLifeLost = MediaPlayer.create(context, R.raw.sound_life_lost_uhoh);
+        soundLifeLost.setOnCompletionListener(mp -> soundLifeLost.release());
+        soundLifeLost.start();
+    }
 
 }
