@@ -48,7 +48,7 @@ public class SaveTheOcean extends AppCompatActivity {
 
     ConstraintLayout constraintLayout;
     TextView textViewCounterType;
-    TextView textViewNumCounter;
+    TextView textViewCounterNum;
     ImageView fishView;
     ImageView countDownView;
     ProgressBar progressBarPoints;
@@ -78,7 +78,7 @@ public class SaveTheOcean extends AppCompatActivity {
 
         constraintLayout = findViewById(R.id.constraintLayout);
         textViewCounterType = findViewById(R.id.textViewCounterType);
-        textViewNumCounter = findViewById(R.id.textViewNumCounter);
+        textViewCounterNum = findViewById(R.id.textViewNumCounter);
         countDownView = findViewById(R.id.downCounterView);
         fishView = findViewById(R.id.fishView);
         progressBarPoints = findViewById(R.id.progressBarPoints);
@@ -117,24 +117,27 @@ public class SaveTheOcean extends AppCompatActivity {
         itemWidthHeight = displayWidth/displayDividerItemWidth;
         lifeWidthHeight = displayWidth/displayDividerLifeWidth;
 
+
         if(gameNumber == 0){
             textViewCounterType.setVisibility(View.INVISIBLE);
-            textViewNumCounter.setVisibility(View.INVISIBLE);
+            textViewCounterNum.setVisibility(View.INVISIBLE);
             goalPoints = gameType.gameGoalNumValue;
             progressBarPoints.setMax(goalPoints);
         }else if(gameNumber == 1){
             textViewCounterType.setText(R.string.text_level);
-            textViewNumCounter.setText(String.valueOf(gameLevel));
+
+            textViewCounterNum.setText(String.valueOf(gameLevel));
             goalPoints = gameType.gameGoalNumValue;
             //count how many points are needed to reach level 10 to. Level starts at lev 1. 10 points for each levels.
-            progressBarPoints.setMax((gameType.gameGoalNumValue - 2) * 10);
+            progressBarPoints.setMax((gameType.gameGoalNumValue - 1) * 10);
         }else{
             textViewCounterType.setText(R.string.text_points);
-            textViewNumCounter.setText(String.valueOf(gamePoints));
+            textViewCounterNum.setText(String.valueOf(gamePoints));
             progressBarPoints.setVisibility(View.INVISIBLE);
             for(int i = 0; i < gameType.gameGoalNumValue; i++){
                 ImageView ivLife = new ImageView(this);
-                ivLife.setImageResource(R.drawable.item_animal_fish_2);
+                ivLife.setImageResource(R.drawable.button_earth);
+                ivLife.setPadding(15,15,15,15);
                 lifeImageList.add(ivLife);
             }
             upDateLife();
@@ -219,7 +222,7 @@ public class SaveTheOcean extends AppCompatActivity {
             }
 
             if(gameNumber == 1){
-                textViewNumCounter.setText(String.valueOf(gameLevel));
+                textViewCounterNum.setText(String.valueOf(gameLevel));
             }
 
             if(gameNumber == 0){
@@ -234,7 +237,7 @@ public class SaveTheOcean extends AppCompatActivity {
                 }
             }
         }else if(gameNumber == 2 && !ifGameFinish){
-            textViewNumCounter.setText(String.valueOf(gamePoints));
+            textViewCounterNum.setText(String.valueOf(gamePoints));
 
             if(!item.getIsTrash() ){
                 removeLife();
@@ -252,6 +255,7 @@ public class SaveTheOcean extends AppCompatActivity {
     public void removeLife(){
         if(!lifeImageList.isEmpty()) {
             lifeImageList.remove(0);
+            musicController.soundLifeLost();
             upDateLife();
         }
     }
@@ -269,12 +273,11 @@ public class SaveTheOcean extends AppCompatActivity {
         }
     }
 
-    // TODO: 2022-03-10 if gameType num 1 (second game) level should be 10 when game over. level is 9 
     private void gameOver(){
         animationsImage.finishRainbow(this, displayWidth);
         musicController.startFinishApplause();
         textViewCounterType.bringToFront();
-        textViewNumCounter.bringToFront();
+        textViewCounterNum.bringToFront();
         TextView musicCredit = findViewById(R.id.textviewCredit);
         musicCredit.setVisibility(View.VISIBLE);
         for(int i = 0; i < 50; i++){

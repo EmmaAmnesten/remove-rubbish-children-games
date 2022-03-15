@@ -3,15 +3,19 @@
     <string name="game1_name">Rädda havet</string>
     <string name="game1_button">Samla %1$s st skräp</string>
     <string name="game2_button">Nå level %1$s</string>
-    <string name="game3_button">%1$s fisk liv</string>
+    <string name="game3_button">%1$s jordliv</string>
+    <string name="game1_button_image">Banan</string>
+    <string name="game2_button_image">Nummer 10</string>
+    <string name="game3_button_image">Jorden</string>
 
     <string name="text_level">Level</string>
     <string name="text_points">Poäng</string>
     <string name="music_credit">Music: www.bensound.com</string>
 
     <string name="content_description_fish">Fisk</string>
-    <string name="content_description_water">Water</string>
+    <string name="content_description_water">Vatten</string>
     <string name="content_description_count_down">Räknar ner. 3–2–1-start</string>
     <string name="content_description_trash_group">En samling med skräp</string>
+
 
 </resources>

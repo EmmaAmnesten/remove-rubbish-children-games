@@ -1,5 +1,7 @@
 package com.example.bortmedskrp;
 
+import static com.example.bortmedskrp.SaveTheOcean.gameNumber;
+
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.view.View;
@@ -105,12 +107,17 @@ class AnimationsImage {
 
     public void finishRainbow(SaveTheOcean saveTheOcean, int displayWidth){
         ImageView finishImageView = new ImageView(saveTheOcean);
-        finishImageView.setBackgroundResource(R.drawable.end_rainbow);
+        if(gameNumber== 1){
+            finishImageView.setBackgroundResource(R.drawable.end_rainbow_10);
+        }else{
+            finishImageView.setBackgroundResource(R.drawable.end_rainbow);
+        }
         saveTheOcean.constraintLayout.addView(finishImageView);
         finishImageView.setY((- (displayWidth >> 1)));
         finishImageView.setX(displayWidth);
 
-        Animation animation1 = AnimationUtils.loadAnimation(saveTheOcean.getApplicationContext(), R.anim.animation_finish_rainbow);
-        finishImageView.startAnimation(animation1);
+        Animation animation = AnimationUtils.loadAnimation(saveTheOcean.getApplicationContext(),
+                R.anim.animation_finish_rainbow);
+        finishImageView.startAnimation(animation);
     }
 }

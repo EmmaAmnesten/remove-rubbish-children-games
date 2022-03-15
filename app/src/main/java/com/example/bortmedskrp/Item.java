@@ -17,8 +17,8 @@ import java.util.Random;
 
 class Item extends androidx.appcompat.widget.AppCompatImageView {
 
-    final static int startMiniSpeed = 6;
-    final static int startMaxSpeed = 15;
+    final static int startMiniSpeed = 4;
+    final static int startMaxSpeed = 12;
 
     SaveTheOcean saveTheOcean;
     int displayHeight;

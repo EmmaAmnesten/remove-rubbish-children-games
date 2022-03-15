@@ -27,44 +27,104 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_level1"
-        android:layout_margin="20dp"
-        style="@style/ButtonStyle"
-        android:text="@string/game1_button"
+        android:id="@+id/button_game1"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/button_background_onclick_attribute"
         app:layout_constraintTop_toBottomOf="@id/guideline1"
-        app:layout_constraintBottom_toTopOf="@id/button_level2"
+        app:layout_constraintBottom_toTopOf="@id/button_game2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-    </Button>
 
-    <Button
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_game1_text"
+            style="@style/ButtonStyle"
+            android:text="@string/game1_button"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/button_trash"
+            android:contentDescription="@string/game1_button_image"
+            android:layout_gravity="center"
+            android:padding="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_level2"
-        android:layout_margin="20dp"
-        style="@style/ButtonStyle"
-        android:text="@string/game1_button"
-        app:layout_constraintTop_toBottomOf="@id/button_level1"
-        app:layout_constraintBottom_toTopOf="@id/button_level3"
+        android:id="@+id/button_game2"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/button_background_onclick_attribute"
+        app:layout_constraintTop_toBottomOf="@id/button_game1"
+        app:layout_constraintBottom_toTopOf="@id/button_game3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-    </Button>
 
-    <Button
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/button_star10"
+            android:contentDescription="@string/game2_button_image"
+            android:layout_gravity="center"
+            android:padding="10dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_game2_text"
+            style="@style/ButtonStyle"
+            android:text="@string/game2_button"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button_level3"
-        android:layout_margin="20dp"
-        style="@style/ButtonStyle"
-        android:text="@string/game1_button"
-        app:layout_constraintTop_toBottomOf="@id/button_level2"
-        app:layout_constraintBottom_toBottomOf="@id/guideline2"
+        android:id="@+id/button_game3"
+        android:orientation="horizontal"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/button_background_onclick_attribute"
+        app:layout_constraintTop_toBottomOf="@id/button_game2"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-    </Button>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_game3_text"
+            style="@style/ButtonStyle"
+            android:text="@string/game3_button"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/button_earth"
+            android:contentDescription="@string/game3_button_image"
+            android:layout_gravity="center"
+            android:padding="10dp" />
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -85,5 +145,7 @@
         android:layout_marginBottom="0dp"
         android:contentDescription="@string/content_description_trash_group">
     </ImageView>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

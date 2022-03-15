@@ -3,13 +3,12 @@ package com.example.bortmedskrp;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Buttons for various game types.
  */
-
-// TODO: 2022-03-10 add image on buttons, so children who can not read see differences on buttons
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,20 +29,24 @@ public class MainActivity extends AppCompatActivity {
         GameTypes.gameType gameType2 = gameTypes.getGameTypeByPosition(game2Num);
         GameTypes.gameType gameType3 = gameTypes.getGameTypeByPosition(game3Num);
 
-        Button buttonGameSaveTheOceanLevel1 = findViewById(R.id.button_level1);
-        Button buttonGameSaveTheOceanLevel2 = findViewById(R.id.button_level2);
-        Button buttonGameSaveTheOceanLevel3 = findViewById(R.id.button_level3);
+        LinearLayout buttonGame1 = findViewById(R.id.button_game1);
+        LinearLayout buttonGame2 = findViewById(R.id.button_game2);
+        LinearLayout buttonGame3 = findViewById(R.id.button_game3);
 
-        buttonGameSaveTheOceanLevel1.setText(getString(gameType1.buttonStringValue,
+        TextView buttonGame1Text = findViewById(R.id.button_game1_text);
+        TextView buttonGame2Text = findViewById(R.id.button_game2_text);
+        TextView buttonGame3Text = findViewById(R.id.button_game3_text);
+
+        buttonGame1Text.setText(getString(gameType1.buttonStringValue,
                 String.valueOf(gameType1.gameGoalNumValue)));
-        buttonGameSaveTheOceanLevel2.setText(getString(gameType2.buttonStringValue,
+        buttonGame2Text.setText(getString(gameType2.buttonStringValue,
                 String.valueOf(gameType2.gameGoalNumValue)));
-        buttonGameSaveTheOceanLevel3.setText(getString(gameType3.buttonStringValue,
+        buttonGame3Text.setText(getString(gameType3.buttonStringValue,
                 String.valueOf(gameType3.gameGoalNumValue)));
 
-        buttonGameSaveTheOceanLevel1.setOnClickListener(v -> startGameSaveOcean(game1Num));
-        buttonGameSaveTheOceanLevel2.setOnClickListener(v -> startGameSaveOcean(game2Num));
-        buttonGameSaveTheOceanLevel3.setOnClickListener(v -> startGameSaveOcean(game3Num));
+        buttonGame1.setOnClickListener(v -> startGameSaveOcean(game1Num));
+        buttonGame2.setOnClickListener(v -> startGameSaveOcean(game2Num));
+        buttonGame3.setOnClickListener(v -> startGameSaveOcean(game3Num));
     }
 
 
